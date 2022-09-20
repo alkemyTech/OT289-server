@@ -1,4 +1,4 @@
-const sgMail = require('../services/sendgrid')
+const nodemailer = require('nodemailer');
 const { validationResult } = require('express-validator')
 
 const mailerController = {
@@ -11,6 +11,17 @@ const mailerController = {
     send: async (req, res) => {
        let errors = validationResult(req)
        const {to, subject, text, html} = req.body
+       
+      const config = {
+        host: 'smtp.gmail.com',
+        port: '587',
+        auth: {
+          user: 'somosmas2022ong@gmail.com',
+          pass: 'msnsttnqllyrtxqh'
+        }
+      }
+
+       const transport = nodemailer.createTransport(config)
 
       if(!errors.isEmpty()) {
         return res.render('apimail', {errors: errors.mapped(), oldBody: req.body})
@@ -18,20 +29,18 @@ const mailerController = {
 
        const msg = {
         to,
-        from: 'ignacio.maldonado96@gmail.com',
+        from:'somosmas2022ong@gmail.com',
         subject,
         text,
         html,
        }
 
        try {
-         await sgMail.send(msg)
+         await transport.sendMail(msg)
+         await res.send('Email enviado')
        } catch (error) {
-         res.status(error.code).send(error.message)
+         res.send(error.message)
        }
-
-       res.send('Email enviado')
-        
     }
 }
 
