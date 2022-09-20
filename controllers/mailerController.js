@@ -17,7 +17,7 @@ const mailerController = {
         port: '587',
         auth: {
           user: 'somosmas2022ong@gmail.com',
-          pass: 'msnsttnqllyrtxqh'
+          pass: process.env.MAILER_PASSWORD
         }
       }
 
