@@ -1,3 +1,5 @@
+import nodemailer from 'nodemailer';
+
 export async function sendMail(to, subject, text, html) {
    const config = {
      host: 'smtp.gmail.com',
@@ -23,5 +25,6 @@ export async function sendMail(to, subject, text, html) {
     return result
   } catch (error) {
     res.send(error.message)
+    return null
   }
 }
