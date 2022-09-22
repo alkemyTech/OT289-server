@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const userControllers = require('../controllers/userControllers');
 const validator = require('../middlewares/userLoginExpressValidator');
+const userController = require('../controllers/userController.js');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -9,5 +10,16 @@ router.get('/', function (req, res, next) {
 });
 /* POST route to authenticate user to login */
 router.post('/auth/login', validator, userControllers.loginProcess);
+
+
+router.post('/auth/register', userController.addUser);
+
+
+
+
+
+
+
+
 
 module.exports = router;
