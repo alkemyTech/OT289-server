@@ -9,6 +9,7 @@ require('dotenv').config()
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth')
+const newsRouter = require('./routes/news')
 
 const app = express();
 app.use(cors())
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter)
+app.use('/news', newsRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -42,5 +44,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(3001, () => {
+  console.log('server running on PORT 3001')
+})
 
 module.exports = app;
