@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     organizationId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'slideImage',
+    modelName: 'SlideImage',
   });
-  return slideImage;
+  return SlideImage;
 };
