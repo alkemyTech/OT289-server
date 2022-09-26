@@ -8,7 +8,11 @@ const mainControllers = {
     },
     public:(req, res)=>{
         let response =  mockData.find((item)=>{return item.id == req.params.id})
-        res.json(response)
+        if (response){
+            return res.status(200).json(response)
+        }else{
+            return res.status(400).json({errors:[{msg:"No organization found"}]})
+        }
     }
 }
 
