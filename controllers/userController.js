@@ -82,12 +82,4 @@ const userControllers = {
     }
 };
 
-function signToken(payload){
-    let token = jwt.sign({ payload }, JWT_SECRET, {
-		algorithm: "HS256",
-		expiresIn: '6h',
-	})
-    return token
-}
-
 module.exports = userControllers;
