@@ -21,14 +21,13 @@ function isAdmin(req,res,next){
         }
    })
 
-   const admin = decodedData.roleId // saber en que campo del token estaria el roleId
+   const admin = decodedData.data.roleId // saber en que campo del token estaria el roleId
 
    if (admin === 1) {
     next();
    } else {
     return res.sendStatus(403)
    }
-
 }
 
 module.exports = isAdmin
