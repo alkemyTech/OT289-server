@@ -1,36 +1,93 @@
-const { body, validationResult } = require('express-validator');
-const db = require('../models/index'); 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const JWT_SECRET = process.env.SECRET
+const db = require('../models');
+const User = db.User
+const { validationResult, check } = require("express-validator");
 
-exports.addUser = [
-  body('username').isLength({min:2}).withMessage('El nombre es requerido y debe tener mas de dos caracteres'),
-  body('lastname').isLength({min:2}).withMessage('El apellido es requerido y debe tener mas de dos caracteres'),  
-  body('email').isEmail().withMessage('El formato de Email debe ser válido'),
-   // password must be at least 6chars long
-  body('password').isLength({ min: 6 }).withMessage('El password debe tener minimo 6 caracteres'),
-  async (req, res) => {
-     
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+
+const userControllers = {
+    login: (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()})
+        }
+
+        User.findOne({where: { email: req.body.email }})
+        .then(user => {
+            if (user  === null) {
+                return res.status(400).json({errors:[{
+                    msg:"El usuario ingresado no existe",
+                }]})
+            }else if(bcrypt.compareSync(req.body.password, user.password)){
+                return res.status(200)
+            }else{
+                return res.status(400).json({errors:[{
+                    msg:"El usuario y contraseña no coincide",
+                }]})
+            }
+        })
+        .catch((error)=>{
+            return res.status(400).json({errors:[{
+                msg:"Estamos teniendo problemas para autenticar tu usuario, intente mas tarde",
+            }]})
+        })
+    },
+    register: (req, res) => {
+        const errors = validationResult(req);
+        
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors: errors.array()});
+        }
+
+        const { firstName,lastName, email, password } = req.body; 
+        const passHash = bcrypt.hashSync(password, 10);    
     
-    
-    const { username, lastname, email, password } = req.body; 
-    if (await db.User.findOne({ where: { email: email } })) {
-      return res.status(500).json('El usuario ingresado ya existe');
+        User.create({
+            firstName: firstName,
+            lastName:lastName,
+            email: email,
+            password: passHash
+        })
+        .then((newUser)=>{
+            delete (newUser.password)
+            return res.status(200).json({newUser});
+        })
+        .catch((error)=>{
+            return res.status(400).json({errors:{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}});
+        })
+    },
+    checkEmail: (req, res) => {
+
+        User.findOne({ where: { email: req.body.email } })
+        .then(user => {return user ? res.status(200).json({emailExist:true}) : res.status(200).json({emailExist:false}) })
+        .catch(error => {return res.status(400).json({errors:[{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}]})})
+    },
+    checkPassword: (req, res) => {
+        User.findOne({where: { email : req.body.email }})
+        .then(user => {
+            if(!user){
+                return res.status(200).json({passwordCorrect:false})
+            }
+            if(bcrypt.compareSync(req.body.password, user.dataValues.password)){
+                return res.status(200).json({passwordCorrect:true})
+            }else{
+                return res.status(200).json({passwordCorrect:false})
+            }
+        })
+        .catch(error => {
+            return res.status(400).json({errors:[{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}]})
+        })
+
     }
-    const salt= await bcrypt.genSalt(10);
-    const passHash = await bcrypt.hash(password, salt );    
+};
 
-    const objUser= {
-      firstName: username,
-      lastName: lastname,
-      email: email,
-      password: passHash
-    }
-    const user = new db.User(objUser);    
+function signToken(payload){
+    let token = jwt.sign({ payload }, JWT_SECRET, {
+		algorithm: "HS256",
+		expiresIn: '6h',
+	})
+    return token
+}
 
-    return res.json( await user.save() );
-
-  }];
+module.exports = userControllers;
