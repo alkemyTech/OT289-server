@@ -20,7 +20,9 @@ const userControllers = {
                     msg:"El usuario ingresado no existe",
                 }]})
             }else if(bcrypt.compareSync(req.body.password, user.password)){
-                return res.status(200)
+                delete user.password
+                let token = signToken(user)
+                return res.status(200).json({token})
             }else{
                 return res.status(400).json({errors:[{
                     msg:"El usuario y contraseña no coincide",
@@ -81,5 +83,13 @@ const userControllers = {
 
     }
 };
+
+function signToken(payload){
+    let token = jwt.sign({ payload }, JWT_SECRET, {
+		algorithm: "HS256",
+		expiresIn: '6h',
+	})
+    return token
+}
 
 module.exports = userControllers;
