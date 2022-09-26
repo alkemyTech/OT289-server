@@ -9,22 +9,22 @@ function isAdmin(req,res,next){
     bearerToken = bearerHeader?.split(' ')[1]
    } else {
     return res.sendStatus(403)
-   }
+   } // Si no manda authorization en headers da 403
 
    if (!bearerToken) {
     return res.sendStatus(404)
-   }
+   } // si no existe el token da 404
 
    const decodedData = jwt.verify(bearerToken, secret, (error) => {
         if (error) {
-           return res.sendStatus(403)
-        }
+           return res.send(error)
+        } // si el token es invalido da el resultado de error
    })
 
-   const admin = decodedData.data.roleId // saber en que campo del token estaria el roleId
+   const admin = decodedData.data.roleId // el admin va a ser el numero que este en el campo de roleId
 
    if (admin === 1) {
-    next();
+    next(); // si es 1 pasa el middle, si es otro numero da un 403   
    } else {
     return res.sendStatus(403)
    }
