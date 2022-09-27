@@ -8,7 +8,7 @@ const newsController = {
         const categoryId = req.body.categoryId
         const type = req.body.type
 
-        db.news.update({
+        db.Entry.update({
             id,
             name,
             image,
