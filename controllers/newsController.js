@@ -13,7 +13,8 @@ const newsController = {
             name,
             image,
             categoryId,
-            type
+            type,
+            updateAt: new Date(),
 
         },{
             where: {id}
