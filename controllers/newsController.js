@@ -9,7 +9,6 @@ const newsController = {
         const type = req.body.type
 
         db.Entry.update({
-            id,
             name,
             image,
             categoryId,
