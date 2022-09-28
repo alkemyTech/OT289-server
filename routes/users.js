@@ -16,7 +16,7 @@ router.post('/auth/login', validator, userControllers.loginProcess);
 //POST add user.
 router.post('/auth/register', userController.addUser);
 //GET list of all users.
-router.get('/a/users', userController.listAllUsers);
+router.get('/users', userController.listAllUsers);
 
 
 
