@@ -1,7 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var newsController = require('../controllers/newsController')
+const express = require('express')
+const router = express.Router()
 
+const newsController = require('../controllers/newsController.js')
+const newsValidator = require('../middlewares/newsValidator')
+
+//POST add new entry to "Entries" with type "news"
+router.post('/', newsValidator, newsController.add)
 router.put('/:id', newsController.update)
 
-module.exports = router;
+module.exports = router

@@ -6,3 +6,12 @@ body {
 a {
   color: #00B7FF;
 }
+
+.input-container{
+  margin-bottom: 10px;
+}
+
+.email-errors {
+  color: red;
+  font-weight: bold;
+}
