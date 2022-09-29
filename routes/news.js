@@ -6,6 +6,6 @@ const newsValidator = require('../middlewares/newsValidator')
 
 //POST add new entry to "Entries" with type "news"
 router.post('/', newsValidator, newsController.add)
-router.put('/:id', newsController.update)
+router.put('/:id', newsValidator, newsController.update)
 
 module.exports = router

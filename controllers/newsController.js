@@ -4,17 +4,27 @@ const { validationResult } = require("express-validator")
 const newsController = {
     update: (req,res) => {
         const id = req.params.id
-        const name = req.body.name
-        const image = req.body.image
-        const categoryId = req.body.categoryId
-        const type = req.body.type
+        const {name, content, image, categoryId, type} = req.body
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            let errorMessages = ''
+
+            errors.array().map(error => {
+                errorMessages += error.msg + '. '
+            })
+
+            return res.sendStatus(401)
+        }
 
         db.Entries.update({
             name,
+            content,
             image,
             categoryId,
             type,
-            updateAt: new Date(),
+            updateAt: new Date,
 
         },{
             where: {id}
