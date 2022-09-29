@@ -13,8 +13,6 @@ const s3 = new S3Client({
     }
 })
 
-//To get file url:
-//https://BUCKETNAME.s3.amazonaws.com/KEY
 const aws = {
     uploadFile: async (fileName, fileData) => {
         const uploadParams = {
@@ -24,6 +22,7 @@ const aws = {
         }
         const command = new PutObjectCommand(uploadParams)
         await s3.send(command)
+        return `https://${AWS_BUCKET_NAME}.s3.amazonaws.com/${fileName}`
     },
     deleteFile: async (fileName) => {
         const deleteParams = {
