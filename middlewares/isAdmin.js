@@ -15,19 +15,18 @@ function isAdmin(req,res,next){
     return res.sendStatus(404)
    } // si no existe el token da 404
 
-   const decodedData = jwt.verify(bearerToken, secret, (error) => {
+   jwt.verify(bearerToken, secret, (error, data) => {
         if (error) {
            return res.send(error)
-        } // si el token es invalido da el resultado de error
+        } else {
+         const admin = data.user.roleId // variable a modificar cuando este el merge de como es el token
+         if(admin === 1) {
+            next()
+         } else {
+            return res.sendStatus(403) // si tu roleId no es 1 (osea administrador) da 403
+         }
+        }// si el token es invalido da el resultado de error
    })
-
-   const admin = decodedData.data.roleId // el admin va a ser el numero que este en el campo de roleId
-
-   if (admin === 1) {
-    next(); // si es 1 pasa el middle, si es otro numero da un 403   
-   } else {
-    return res.sendStatus(403)
-   }
 }
 
 module.exports = isAdmin
