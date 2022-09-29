@@ -16,7 +16,7 @@ const newsControllers = {
 
             return res.status(401).send(errorMessages)
         }
-        
+
         //Else Save in db
         const { name, content, image, categoryId } = req.body
 
@@ -31,7 +31,32 @@ const newsControllers = {
         }
 
         const newEntry = new db.Entries(entryObj)
-        return res.json( await newEntry.save() )
+        return res.json(await newEntry.save())
+    },
+    destroy: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const findEntryById = await db.Entries.findByPk(id);
+            if (!findEntryById) {
+                res.status(404).send({
+                    status: 'error',
+                    message: `Entry with id ${id} not found`
+                });
+            }
+            const deleteEntry = await findEntryById.destroy();
+            if (!deleteEntry) {
+                res.status(503).send({
+                    status: 'error',
+                    message: `Entry with ${id} failed delete`
+                });
+            }
+            res.status(200).send({
+                status: 'succes',
+                message: `Entry with id ${id} deleted`
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
 }
 
