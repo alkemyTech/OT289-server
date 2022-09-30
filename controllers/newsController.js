@@ -39,12 +39,12 @@ const newsControllers = {
     findNewsId: async (req, res) => {                  
       
       const {id} = req.params; 
-      const activitiesId = await db.Activities.findOne({ where: { id:id } })
+      const entriesId = await db.Entries.findOne({ where: { id:id } })
 
-      if (activitiesId == null) {
+      if (entriesId == null) {
         return res.status(404).json('El id no existe');
       }                 
-      return res.status(200).json(activitiesId);
+      return res.status(200).json(entriesId);
   
     }
 }
