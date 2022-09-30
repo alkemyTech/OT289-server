@@ -11,6 +11,7 @@ const usersRouter = require('./routes/users');
 const mailerRouter = require('./routes/mailerRouter');
 const authRouter = require('./routes/auth')
 const newsRouter = require('./routes/news')
+const activitiesRouter = require('./routes/activities')
 
 const app = express();
 app.use(cors())
@@ -29,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter)
 app.use('/news', newsRouter)
+app.use('/activities', activitiesRouter)
 
 app.use('/api/mail', mailerRouter)
 
