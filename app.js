@@ -11,7 +11,6 @@ const usersRouter = require('./routes/users');
 const mailerRouter = require('./routes/mailerRouter');
 const authRouter = require('./routes/auth')
 const newsRouter = require('./routes/news')
-
 const app = express();
 app.use(cors())
 
