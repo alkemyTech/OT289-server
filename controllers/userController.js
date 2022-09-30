@@ -16,7 +16,7 @@ exports.addUser = [
     }
     
     
-    const { username, lastname, email, password } = req.body; 
+    const { username, lastname, email, password, image } = req.body; 
     if (await db.User.findOne({ where: { email: email } })) {
       return res.status(500).json('El usuario ingresado ya existe');
     }
@@ -27,7 +27,8 @@ exports.addUser = [
       firstName: username,
       lastName: lastname,
       email: email,
-      password: passHash
+      password: passHash,
+      image // despues cuando tengamos imagen para usar
     }
     const user = new db.User(objUser);    
 
