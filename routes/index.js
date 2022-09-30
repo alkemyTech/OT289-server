@@ -1,14 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const jwtValidator = require('../middlewares/jwtValidator') 
 
+let express = require('express');
+let router = express.Router();
+let mainControllers = require("../controllers/mainControllers")
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
-});
-
-router.get('/welcome', jwtValidator ,function(req, res) {
-    return res.status(200).json({data:{msg:"Bienvenido de vuelta"}})
-});
+router.get('/', mainControllers.index);
+router.get('/organizations/:id/public', mainControllers.public)
 
 module.exports = router;
