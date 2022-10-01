@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 const jwt = require('jsonwebtoken')
+const adminValidator = require('../middlewares/isAdmin')
 
 const JWT_SECRET = process.env.SECRET
 
@@ -23,5 +24,33 @@ router.get('/me', (req, res) => {
         res.status(401).send('Invalid token')
     }
 })
+
+
+/*router.post('/test/login', (req, res) => {
+    const user = {
+        name: 'ignacio',
+        email: 'ignacio@ignacio.com',
+        roleId: 1 // roleId 1 es administrador, otro numero no lo serias y no funcionaria el validador
+    }
+    
+    jwt.sign({user}, JWT_SECRET, (err, token) => {
+       return res.json({token})
+    })
+})
+
+router.post('/test/admin', adminValidator, (req, res) => {
+
+    const authHeader = req.headers['authorization']
+    const token = authHeader?.split(' ')[1]
+
+    jwt.verify(token, JWT_SECRET, (error, data) => {
+         return res.json({
+           msg: "el token es valido y sos usuario administrador"
+        })   
+    })
+
+})*/
+
+
 
 module.exports = router
