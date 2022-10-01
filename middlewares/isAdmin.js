@@ -19,7 +19,7 @@ function isAdmin(req,res,next){
         if (error) {
            return res.send(error)
         } else {
-         const admin = data.user.roleId // variable a modificar cuando este el merge de como es el token
+         const admin = data.roleId // variable a modificar cuando este el merge de como es el token
          if(admin === 1) {
             next()
          } else {
