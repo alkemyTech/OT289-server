@@ -84,14 +84,6 @@ const userControllers = {
     }
 };
 
-    const objUser= {
-      firstName: username,
-      lastName: lastname,
-      email: email,
-      password: passHash,
-      image // despues cuando tengamos imagen para usar
-    }
-    const user = new db.User(objUser);    
 function signToken(payload){
     let token = jwt.sign({ payload }, JWT_SECRET, {
 		algorithm: "HS256",
