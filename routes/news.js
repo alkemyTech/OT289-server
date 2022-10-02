@@ -1,3 +1,4 @@
+
 const express = require('express')
 const router = express.Router()
 
@@ -9,4 +10,8 @@ router.post('/', newsValidator, newsController.add)
 //DELETE route to logically erase any entry given an :id
 router.delete("/:id", newsController.destroy)
 
+//GET find news by id.
+router.get('/:id', newsController.findNewsId);
+
 module.exports = router
+

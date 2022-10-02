@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
-const userControllers = require('../controllers/userControllers');
-const validator = require('../middlewares/userLoginExpressValidator');
-const userController = require('../controllers/userController.js');
+const userController = require('../controllers/userController');
+const validator = require('../middlewares/expressValidator');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 /* POST route to authenticate user to login */
-router.post('/auth/login', validator, userControllers.loginProcess);
+router.post('/auth/login', validator.login , userController.login);
+router.post('/auth/register', validator.register ,userController.register);
 
-
-router.post('/auth/register', userController.addUser);
+router.post('/auth/checkEmail' , userController.checkEmail);
+router.post('/auth/checkPassword' , userController.checkPassword);
 
 
 
