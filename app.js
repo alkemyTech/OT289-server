@@ -14,6 +14,7 @@ const newsRouter = require('./routes/news');
 const testimonialsRouter = require('./routes/testimonialsRouter');
 const { application } = require('express');
 
+const newsRouter = require('./routes/news')
 const app = express();
 app.use(cors())
 
