@@ -1,32 +1,26 @@
 const db = require("../models");
 const { validationResult } = require("express-validator");
 
-const contactsControllers = {
+const activitiesControllers = {
   add: async (req, res) => {
     //Check if there is any error
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    //Else Save in db
-    const { name, phone, email, message } = req.body;
+    //Else save in db
+    const { name, content } = req.body;
 
     const entryObj = {
       name,
-      phone,
-      email,
-      message,
+      content,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
-    const newEntry = new db.contacts(entryObj);
+    const newEntry = new db.Activities(entryObj);
     return res.json(await newEntry.save());
-  },
-  getAll: async (req, res) => {
-    const contacts = await db.contacts.findAll()
-    res.json(contacts)
   },
 };
 
-module.exports = contactsControllers;
+module.exports = activitiesControllers;

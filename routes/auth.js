@@ -10,6 +10,7 @@ router.get('/me', (req, res) => {
     //get token from header
     const authHeader = req.headers['authorization']
     const token = authHeader?.split(' ')[1]
+    const finalToken = token.replaceAll('"', '')
 
     //If no token, send error 404 (No found)
     if (!token) {
@@ -17,12 +18,12 @@ router.get('/me', (req, res) => {
     }
 
     //verify token, if valid send user data from it
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET)
-        res.send(decoded)
-      } catch(err) {
-        res.status(401).send('Invalid token')
-    }
+    jwt.verify(finalToken, JWT_SECRET, (error, data) => {
+        if (error) {
+            return res.send(error)
+         } else { 
+            return res.send(data)
+    }})
 })
 
 
