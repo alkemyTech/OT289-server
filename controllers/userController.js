@@ -53,7 +53,8 @@ const userControllers = {
         })
         .then((newUser)=>{
             delete (newUser.password)
-            return res.status(200).json({newUser});
+            let token = signToken(newUser)
+            return res.status(200).json({token})
         })
         .catch((error)=>{
             return res.status(400).json({errors:{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}});

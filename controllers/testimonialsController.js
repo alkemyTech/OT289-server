@@ -2,7 +2,7 @@ const db = require('../models');
 const { validationResult } = require("express-validator");
 
 const testimonialsController = {
-    testimonials: (req, res) => {
+    postTestimonials: (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.json({ errors: errors.mapped() });

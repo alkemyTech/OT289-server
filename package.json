@@ -7,6 +7,7 @@
     "nodemon": "nodemon ./bin/www"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.171.0",
     "@sendgrid/mail": "^7.7.0",
     "bcryptjs": "^2.4.3",
     "bcrypt": "^5.0.1",
@@ -16,6 +17,7 @@
     "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "express-fileupload": "^1.4.0",
     "express-validator": "^6.14.2",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",

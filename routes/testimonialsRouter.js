@@ -4,6 +4,6 @@ let testimonialsController = require("../controllers/testimonialsController");
 let testimonialsValidator = require("../middlewares/testimonialsValidator");
 
 /* POST ROUTE FOR TESTIMONIALS */
-router.post('/', testimonialsValidator, testimonialsController.testimonials);
+router.post('/', testimonialsValidator, testimonialsController.postTestimonials);
 
 module.exports = router;
