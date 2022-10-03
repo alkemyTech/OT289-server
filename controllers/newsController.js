@@ -68,7 +68,7 @@ const newsControllers = {
             return res.status(404).json('El id no existe');
         }
         return res.status(200).json(entriesId);
-
+      },
   add: async (req, res) => {
     //Check if there is any error
     const errors = validationResult(req);
