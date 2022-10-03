@@ -32,6 +32,30 @@ const newsControllers = {
 
         const newEntry = new db.Entries(entryObj)
         return res.json( await newEntry.save() )
+    },
+    getNews: async (req, res) => {
+      try {
+        const news = await db.Entries.findAll({
+          where: {
+            type: 'news'
+          },
+          attributes: ['name', 'image', 'createdAt']
+        })
+        news.length? res.status(200).send(news) : res.status(200).send('Not found') 
+      } catch (error) {
+        res.status(400).send(error.message)
+      }
+    },
+    findNewsId: async (req, res) => {                  
+      
+      const {id} = req.params; 
+      const entriesId = await db.Entries.findOne({ where: { id:id } })
+
+      if (entriesId == null) {
+        return res.status(404).json('El id no existe');
+      }                 
+      return res.status(200).json(entriesId);
+  
     }
 }
 
