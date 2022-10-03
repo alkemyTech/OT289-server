@@ -14,6 +14,9 @@ router.post('/auth/register', validator.register ,userController.register);
 router.post('/auth/checkEmail' , userController.checkEmail);
 router.post('/auth/checkPassword' , userController.checkPassword);
 
+/* DELETE route to soft-delete a user */
+router.delete('/:id', userControllers.delete);
+
 
 
 
