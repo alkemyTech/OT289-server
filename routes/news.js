@@ -1,3 +1,4 @@
+
 const express = require('express')
 const router = express.Router()
 
@@ -10,4 +11,8 @@ router.post('/', newsValidator, newsControllers.add)
 //GET return the list of entries where the type field is "news"
 router.get('/', newsControllers.getNews)
 
+//GET find news by id.
+router.get('/:id', newsController.findNewsId);
+
 module.exports = router
+
