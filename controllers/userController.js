@@ -3,7 +3,10 @@ const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.SECRET
 const db = require('../models');
 const User = db.User
+const sendMail = require('../services/sendMail')
+const path = require('path');
 const { validationResult, check } = require("express-validator");
+const ejs = require('ejs')
 
 
 const userControllers = {
@@ -52,11 +55,18 @@ const userControllers = {
             password: passHash
         })
         .then((newUser)=>{
+            ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewUser.ejs'), {newUser}, (err, welcomeHTML) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    sendMail(newUser.email, 'Bienvenido a Somos Mas', undefined, welcomeHTML)
+                }
+            })
             delete (newUser.password)
             return res.status(200).json({newUser});
         })
         .catch((error)=>{
-            return res.status(400).json({errors:{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}});
+            return res.status(400).json({errors:[{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}]});
         })
     },
     checkEmail: (req, res) => {
