@@ -35,43 +35,41 @@ const newsControllers = {
         return res.json(await newEntry.save())
     },
     destroy: async (req, res) => {
+        const { id } = req.params
         try {
-            const { id } = req.params;
-            const findEntryById = await db.Entries.findByPk(id);
-            if (!findEntryById) {
+            const deleteEntry = await db.Entries.destroy(
+                {
+                    where: {
+                        id: id
+                    }
+                });
+            if (!deleteEntry) {
                 res.status(404).send({
                     status: 'error',
                     message: `Entry with id ${id} not found`
                 });
+            } else {
+                res.status(200).send({
+                    status: 'succes',
+                    message: `Entry with id ${id} deleted`
+                })
             }
-            const deleteEntry = await findEntryById.destroy();
-            if (!deleteEntry) {
-                res.status(503).send({
-                    status: 'error',
-                    message: `Entry with ${id} failed delete`
-                });
-            }
-            res.status(200).send({
-                status: 'succes',
-                message: `Entry with id ${id} deleted`
-            })
         } catch (error) {
             console.error(error)
         }
-        return res.json( await newEntry.save() )
     },
-    
-// find news by id.
-    findNewsId: async (req, res) => {                  
-      
-      const {id} = req.params; 
-      const entriesId = await db.Entries.findOne({ where: { id:id } })
 
-      if (entriesId == null) {
-        return res.status(404).json('El id no existe');
-      }                 
-      return res.status(200).json(entriesId);
-  
+    // find news by id.
+    findNewsId: async (req, res) => {
+
+        const { id } = req.params;
+        const entriesId = await db.Entries.findOne({ where: { id: id } })
+
+        if (entriesId == null) {
+            return res.status(404).json('El id no existe');
+        }
+        return res.status(200).json(entriesId);
+
     }
 }
 
