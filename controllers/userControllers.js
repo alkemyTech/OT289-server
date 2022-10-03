@@ -19,7 +19,14 @@ const userControllers = {
                     }
                 })
         }
-    }
+    },
+    delete: (req, res) => {
+        db.User.destroy({ where: { id: req.params.id } })
+            .then(() => {
+                res.send(`User ${req.params.id} deleted`)
+            })
+            .catch(error => console.error(error))
+    },
 };
 
 module.exports = userControllers;
