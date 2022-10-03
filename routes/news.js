@@ -12,7 +12,7 @@ router.post('/', newsValidator, newsControllers.add)
 router.get('/', newsControllers.getNews)
 
 //GET find news by id.
-router.get('/:id', newsController.findNewsId);
+router.get('/:id', newsControllers.findNewsId);
 
 module.exports = router
 
