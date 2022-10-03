@@ -82,7 +82,14 @@ const userControllers = {
             return res.status(400).json({errors:[{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}]})
         })
 
-    }
+    },
+    delete: (req, res) => {
+        db.User.destroy({ where: { id: req.params.id } })
+            .then(() => {
+                res.send(`User ${req.params.id} deleted`)
+            })
+            .catch(error => console.error(error))
+    },
 };
 
 function signToken(payload){
