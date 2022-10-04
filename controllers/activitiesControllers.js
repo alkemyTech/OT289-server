@@ -21,6 +21,12 @@ const activitiesControllers = {
     const newEntry = new db.Activities(entryObj);
     return res.json(await newEntry.save());
   },
+  detail: (req,res) => {
+    const id = req.params.id;
+    db.Activities.findOne({where: { id }})
+      .then(data => res.json(data))
+        .catch(error => res.send(error))
+  }
 };
 
 module.exports = activitiesControllers;
