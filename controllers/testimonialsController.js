@@ -13,7 +13,7 @@ const testimonialsController = {
             }
         })
         .then((testimony) => {
-            if(testimony === null){
+            if(testimony[0] === 0){
                 return res.status(400).json({errors:[{msg:"No pudimos encontrar este testimonio"}]})
             }
             return res.status(200).json({testimony})
