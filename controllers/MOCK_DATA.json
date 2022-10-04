@@ -1,10 +1,20 @@
 [
     {
         "id": 1,
-        "socialLinks": {
-            "name": "Instagram",
-            "url": "https://instagram.com"
-        },
+        "socialLinks": [
+            {
+                "name": "Instagram",
+                "url": "https://instagram.com"
+            },
+            {
+                "name": "Facebook",
+                "url": "https://facebook.com"
+            },
+            {
+                "name": "Twitter",
+                "url": "https://twitter.com"
+            }
+        ],
         "name": "Maddy Djorvic",
         "image": "http://dummyimage.com/152x100.png/ff4444/ffffff",
         "phone": "788-137-8279",
@@ -13,10 +23,6 @@
     },
     {
         "id": 2,
-        "socialLinks": {
-            "name": "Facebook",
-            "url": "https://facebook.com"
-        },
         "name": "Hilde Santacrole",
         "image": "http://dummyimage.com/235x100.png/ff4444/ffffff",
         "phone": "417-214-0461",
@@ -25,10 +31,6 @@
     },
     {
         "id": 3,
-        "socialLinks": {
-            "name": "Twitter",
-            "url": "https://twitter.com"
-        },
         "name": "Vincents Bordessa",
         "image": "http://dummyimage.com/202x100.png/cc0000/ffffff",
         "phone": "797-887-9085",
@@ -37,10 +39,6 @@
     },
     {
         "id": 4,
-        "socialLinks": {
-            "name": "Instagram",
-            "url": "https://instagram.com"
-        },
         "name": "Nanny Roycroft",
         "image": "http://dummyimage.com/175x100.png/5fa2dd/ffffff",
         "phone": "651-327-7079",
@@ -49,10 +47,6 @@
     },
     {
         "id": 5,
-        "socialLinks": {
-            "name": "Facebook",
-            "url": "https://facebook.com"
-        },
         "name": "Konstanze Strase",
         "image": "http://dummyimage.com/139x100.png/ff4444/ffffff",
         "phone": "918-488-9821",
@@ -61,10 +55,6 @@
     },
     {
         "id": 6,
-        "socialLinks": {
-            "name": "Twitter",
-            "url": "https://twitter.com"
-        },
         "name": "Norean Maes",
         "image": "http://dummyimage.com/234x100.png/dddddd/000000",
         "phone": "596-955-5716",
@@ -73,10 +63,6 @@
     },
     {
         "id": 7,
-        "socialLinks": {
-            "name": "Instagram",
-            "url": "https://instagram.com"
-        },
         "name": "Luigi Dallosso",
         "image": "http://dummyimage.com/167x100.png/5fa2dd/ffffff",
         "phone": "645-593-4541",
@@ -85,10 +71,6 @@
     },
     {
         "id": 8,
-        "socialLinks": {
-            "name": "Facebook",
-            "url": "https://facebook.com"
-        },
         "name": "Anallise Northcott",
         "image": "http://dummyimage.com/241x100.png/dddddd/000000",
         "phone": "562-131-2121",
@@ -97,10 +79,6 @@
     },
     {
         "id": 9,
-        "socialLinks": {
-            "name": "Twitter",
-            "url": "https://twitter.com"
-        },
         "name": "Kameko Frodsham",
         "image": "http://dummyimage.com/215x100.png/5fa2dd/ffffff",
         "phone": "572-960-5701",
