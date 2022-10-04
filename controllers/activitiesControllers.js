@@ -21,7 +21,7 @@ const activitiesControllers = {
     const newEntry = new db.Activities(entryObj);
     return res.json(await newEntry.save());
   },
-
+//update activities
   upActivities : async (req, res) => {
 const { id } = req.params; 
 const { name, image, content } = req.body;
