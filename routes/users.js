@@ -3,10 +3,9 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const validator = require('../middlewares/expressValidator');
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
+//GET list of all users.
+router.get('/', userController.listAllUsers);
+
 /* POST route to authenticate user to login */
 router.post('/auth/login', validator.login , userController.login);
 router.post('/auth/register', validator.register ,userController.register);
@@ -26,3 +25,4 @@ router.delete('/:id', userController.delete);
 
 
 module.exports = router;
+

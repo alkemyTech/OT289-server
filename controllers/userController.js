@@ -93,6 +93,20 @@ const userControllers = {
         })
 
     },
+
+    //verifying through the user's email if 
+    //the rolesId is administrator to show the list of all users.
+    listAllUsers: async (req, res) => {
+        const { email } = req.query;   
+        const rolAdmin= 1; 
+        const validAdmUser = await db.User.findOne({ where: { email: email, roleId:rolAdmin } });
+        
+        if (validAdmUser == null) {
+        return res.status(500).json("Esta solicitud solo puede ser hecha por un Usuario Administrador");
+        }  
+        const user = await db.User.findAll();
+        return res.json(user);  
+    },
     delete: (req, res) => {
         db.User.destroy({ where: { id: req.params.id } })
             .then(() => {
@@ -109,5 +123,6 @@ function signToken(payload){
 	})
     return token
 }
+
 
 module.exports = userControllers;
