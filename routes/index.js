@@ -1,7 +1,7 @@
 
-let express = require('express');
-let router = express.Router();
-let mainControllers = require("../controllers/mainControllers")
+const express = require('express');
+const router = express.Router();
+const mainControllers = require("../controllers/mainControllers")
 
 /* GET home page. */
 router.get('/', mainControllers.index);
