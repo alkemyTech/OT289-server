@@ -6,9 +6,10 @@ const newsControllers = require('../controllers/newsController.js')
 const newsValidator = require('../middlewares/newsValidator')
 
 //POST add new entry to "Entries" with type "news"
-router.post('/', newsValidator, newsController.add)
+router.post('/', newsValidator, newsControllers.add)
 //DELETE route to logically erase any entry given an :id
-router.delete("/:id", newsController.destroy)
+router.delete("/:id", newsControllers.destroy)
+router.put('/:id', newsValidator, newsControllers.update)
 router.post('/', newsValidator, newsControllers.add)
 
 //GET return the list of entries where the type field is "news"

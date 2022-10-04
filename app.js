@@ -15,7 +15,7 @@ const newsRouter = require('./routes/news');
 const testimonialsRouter = require('./routes/testimonialsRouter');
 const { application } = require('express');
 
-const newsRouter = require('./routes/news')
+
 const activitiesRouter = require('./routes/activities')
 const contactsRouter = require('./routes/contacts')
 
@@ -59,6 +59,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3001)
 
 module.exports = app;

@@ -1,7 +1,7 @@
-let express = require('express');
-let router = express.Router();
-let testimonialsController = require("../controllers/testimonialsController");
-let testimonialsValidator = require("../middlewares/testimonialsValidator");
+const express = require('express');
+const router = express.Router();
+const testimonialsController = require("../controllers/testimonialsController");
+const testimonialsValidator = require("../middlewares/testimonialsValidator");
 
 /* POST ROUTE FOR TESTIMONIALS */
 router.post('/', testimonialsValidator, testimonialsController.postTestimonials);
