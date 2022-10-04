@@ -1,7 +1,60 @@
 const db = require("../models");
 const { validationResult } = require("express-validator");
 
-const newsControllers = {
+const newsController = {
+    update: (req,res) => {
+        const id = req.params.id
+        const {name, content, image, categoryId, type} = req.body
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            let errorMessages = ''
+
+            errors.array().map(error => {
+                errorMessages += error.msg + '. '
+            })
+
+            return res.sendStatus(401)
+        }
+
+        db.Entries.update({
+            name,
+            content,
+            image,
+            categoryId,
+            type,
+            updateAt: new Date,
+
+        },{
+            where: {id}
+        })
+            .then(( confirm => {
+                let answer;
+                if(confirm) {
+                    answer = {
+                        meta: {
+                            status: 200,
+                            total: confirm.length,
+                            url: `/news/${id}`
+                        },
+                        data:confirm
+                    }
+                } else {
+                    answer = {
+                        meta: {
+                            status: 204, 
+                            total: confirm.length,
+                            url: `/news/${id}`
+                        },
+                        data: confirm
+                    }
+                }
+                res.json(answer)
+            }))
+            .catch(error => res.send(error))
+    },
+
   add: async (req, res) => {
     //Check if there is any error
     const errors = validationResult(req);
@@ -59,4 +112,4 @@ const newsControllers = {
   },
 };
 
-module.exports = newsControllers;
+module.exports = newsController;

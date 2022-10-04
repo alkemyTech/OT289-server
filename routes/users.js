@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const userController = require('../controllers/userController');
 const userControllers = require('../controllers/userControllers');
 const validator = require('../middlewares/expressValidator');
@@ -18,7 +18,7 @@ router.post('/auth/checkEmail' , userController.checkEmail);
 router.post('/auth/checkPassword' , userController.checkPassword);
 
 /* DELETE route to soft-delete a user */
-router.delete('/:id', userControllers.delete);
+router.delete('/:id', userController.delete);
 
 
 

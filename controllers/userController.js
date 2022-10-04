@@ -96,7 +96,14 @@ const userControllers = {
         }  
         const user = await db.User.findAll();
         return res.json(user);  
-    }
+    },
+    delete: (req, res) => {
+        db.User.destroy({ where: { id: req.params.id } })
+            .then(() => {
+                res.send(`User ${req.params.id} deleted`)
+            })
+            .catch(error => console.error(error))
+    },
 };
 
 function signToken(payload){

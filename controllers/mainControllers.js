@@ -1,5 +1,5 @@
-let mockDataJson = require('./MOCK_DATA.json')
-let mockData = JSON.parse(JSON.stringify(mockDataJson))
+const mockDataJson = require('./MOCK_DATA.json')
+const mockData = JSON.parse(JSON.stringify(mockDataJson))
 
 const mainControllers = {
     index: (req, res) => {
