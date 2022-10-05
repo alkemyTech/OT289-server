@@ -2,7 +2,7 @@ const db = require("../models");
 const { validationResult } = require("express-validator");
 
 const newsController = {
-    update: (req,res) => {
+    update: async (req,res) => {
         const id = req.params.id
         const {name, content, image, categoryId, type} = req.body
 
@@ -23,38 +23,50 @@ const newsController = {
             content,
             image,
             categoryId,
-            type,
-            updateAt: new Date,
-
-        },{
-            where: {id}
+            type: 'news',
+            createdAt: new Date,
+            updatedAt: new Date
         })
-            .then(( confirm => {
-                let answer;
-                if(confirm) {
-                    answer = {
-                        meta: {
-                            status: 200,
-                            total: confirm.length,
-                            url: `/news/${id}`
-                        },
-                        data:confirm
+
+        const newEntry = new db.Entries(entryObj)
+        return res.json(await newEntry.save())
+    },
+    destroy: async (req, res) => {
+        const { id } = req.params
+        try {
+            const deleteEntry = await db.Entries.destroy(
+                {
+                    where: {
+                        id: id
                     }
-                } else {
-                    answer = {
-                        meta: {
-                            status: 204, 
-                            total: confirm.length,
-                            url: `/news/${id}`
-                        },
-                        data: confirm
-                    }
-                }
-                res.json(answer)
-            }))
-            .catch(error => res.send(error))
+                });
+            if (!deleteEntry) {
+                res.status(404).send({
+                    status: 'error',
+                    message: `Entry with id ${id} not found`
+                });
+            } else {
+                res.status(200).send({
+                    status: 'succes',
+                    message: `Entry with id ${id} deleted`
+                })
+            }
+        } catch (error) {
+            console.error(error)
+        }
     },
 
+    // find news by id.
+    findNewsId: async (req, res) => {
+
+        const { id } = req.params;
+        const entriesId = await db.Entries.findOne({ where: { id: id } })
+
+        if (entriesId == null) {
+            return res.status(404).json('El id no existe');
+        }
+        return res.status(200).json(entriesId);
+      },
   add: async (req, res) => {
     //Check if there is any error
     const errors = validationResult(req);

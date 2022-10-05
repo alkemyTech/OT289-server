@@ -23,19 +23,33 @@ const activitiesControllers = {
   },
 //update activities
   upActivities : async (req, res) => {
-const { id } = req.params; 
-const { name, image, content } = req.body;
-const activities = await db.Activities.findOne({ where: { id:id } }) 
+    const { id } = req.params; 
+    const { name, image, content } = req.body;
+    const activities = {} 
 
-    if (activities == null) {
-        return res.status(404).json('La actividad no existe');
-    }    
-    activities.name = name;
-    activities.image = image;
-    activities.content = content;
+        activities.id = id
+        activities.name = name;
+        activities.image = image;
+        activities.content = content;
 
-    return res.json(await activities.save());
+        await db.Activities.update(activities, {where: { id: id}})
+        .then((response) => { 
+          if (response[0] == 0) {          
+            return res.status(404).json('La actividad no existe');
+          }
+          return res.status(200).json(activities);
+        })
+        .catch((err) =>{
+          return res.status(500).json(err);
+        })
 
+  },
+
+  detail: (req,res) => {
+    const id = req.params.id;
+    db.Activities.findOne({where: { id }})
+      .then(data => res.json(data))
+        .catch(error => res.send(error))
   }
 };
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const validator = require('../middlewares/expressValidator');
-const userControllers = require('../controllers/userControllers');
+
 //GET list of all users.
 router.get('/', userController.listAllUsers);
 
@@ -25,3 +25,4 @@ router.delete('/:id', userController.delete);
 
 
 module.exports = router;
+
