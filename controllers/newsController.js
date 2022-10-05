@@ -2,7 +2,7 @@ const db = require("../models");
 const { validationResult } = require("express-validator");
 
 const newsController = {
-    update: (req,res) => {
+    update: async (req,res) => {
         const id = req.params.id
         const {name, content, image, categoryId, type} = req.body
 
@@ -26,7 +26,7 @@ const newsController = {
             type: 'news',
             createdAt: new Date,
             updatedAt: new Date
-        }
+        })
 
         const newEntry = new db.Entries(entryObj)
         return res.json(await newEntry.save())

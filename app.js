@@ -37,6 +37,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter)
 app.use('/news', newsRouter)
+
 app.use('/testimonials', testimonialsRouter);
 app.use('/activities', activitiesRouter)
 app.use('/contacts', contactsRouter)
@@ -58,6 +59,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 
 module.exports = app;
