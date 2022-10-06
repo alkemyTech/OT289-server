@@ -1,6 +1,6 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer')
 
-export async function sendMail(to, subject, text, html) {
+async function sendMail(to, subject, text, html) {
    const config = {
      host: 'smtp.gmail.com',
      port: '587',
@@ -28,3 +28,5 @@ export async function sendMail(to, subject, text, html) {
     return null
   }
 }
+
+module.exports = sendMail

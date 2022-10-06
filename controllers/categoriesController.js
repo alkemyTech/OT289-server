@@ -14,6 +14,26 @@ const testimonialsController = {
             console.error(error)
             return res.status(400).json({errors:[{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}]})
         })
+    },
+    getCategories: (req, res) => {
+        db.Categories.findAll()
+            .then(data => {
+                const newData = data.map(category => {return {
+                    id: category.dataValues.id,
+                    name: category.dataValues.name
+                }})
+                return res.status(200).send(newData)
+            })
+                .catch(error => {
+                    const errorObj = {
+                        error: 'Problemas en la base de datos, por favor intente mas tarde', 
+                        sequelizeError: {
+                            code: error.parent.code,
+                            nro:error.parent.errno
+                        }
+                    }
+                    return res.status(400).json(errorObj)
+                })
     }
 
 }
