@@ -13,6 +13,7 @@ const mailerRouter = require('./routes/mailerRouter');
 const authRouter = require('./routes/auth')
 const newsRouter = require('./routes/news');
 const testimonialsRouter = require('./routes/testimonialsRouter');
+const categoriesRouter = require('./routes/categoriesRouter');
 const { application } = require('express');
 
 
@@ -37,7 +38,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter)
 app.use('/news', newsRouter)
-
+app.use('/categories', categoriesRouter)
 app.use('/testimonials', testimonialsRouter);
 app.use('/activities', activitiesRouter)
 app.use('/contacts', contactsRouter)
