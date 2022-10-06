@@ -18,7 +18,10 @@ const testimonialsController = {
     getCategories: (req, res) => {
         db.Categories.findAll()
             .then(data => {
-                const newData = data.map(category => category.dataValues.name)
+                const newData = data.map(category => {return {
+                    id: category.dataValues.id,
+                    name: category.dataValues.name
+                }})
                 return res.status(200).send(newData)
             })
                 .catch(error => {
