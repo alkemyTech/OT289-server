@@ -10,7 +10,7 @@ router.get('/me', (req, res) => {
     //get token from header
     const authHeader = req.headers['authorization']
     const token = authHeader?.split(' ')[1]
-    const finalToken = token.replaceAll('"', '')
+    const finalToken = token.split('"').join('');
 
     //If no token, send error 404 (No found)
     if (!token) {

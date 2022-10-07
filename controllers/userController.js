@@ -52,7 +52,8 @@ const userControllers = {
             firstName: firstName,
             lastName:lastName,
             email: email,
-            password: passHash
+            password: passHash,
+            roleId:1
         })
         .then((newUser)=>{
             ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewUser.ejs'), {newUser}, (err, welcomeHTML) => {
