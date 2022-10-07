@@ -39,7 +39,20 @@ const testimonialsController = {
                     console.error(error)
                 })
         }
-    }
+    },
+    deleteTestimonials: (req, res) => {
+        db.Testimonials.destroy({where:{id: req.params.id}})
+        .then((testimonial) => {
+            if(testimonial[0] === 0){
+                return res.status(400).json({errors:[{msg:"No pudimos encontrar este testimonio"}]})
+            }
+            return res.status(200).json({testimonial})
+        })
+        .catch(error => {
+            console.error(error)
+            return res.status(400).json({errors:[{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}]})
+        })
+    },
 }
 
 module.exports = testimonialsController;
