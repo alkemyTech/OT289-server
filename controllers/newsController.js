@@ -104,7 +104,7 @@ const newsController = {
         where: {
           type: "news",
         },
-        attributes: ["name", "image", "createdAt"],
+        attributes: ["id", "name", "image", "createdAt"],
       });
       news.length
         ? res.status(200).send(news)
