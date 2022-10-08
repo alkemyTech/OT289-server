@@ -1,4 +1,5 @@
 const db = require('../models')
+const { validationResult, body } = require("express-validator");
 
 const membersController = {
     destroy: async (req, res) => {
@@ -26,7 +27,30 @@ const membersController = {
         } catch (error) {
           res.status(500).json(error.message);
         }
-      },
+    },
+        createMember: async (req, res) => {
+          
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+              return res.status(400).json({ errors: errors.array() });
+            }
+            //Else save in db
+            const { name, image } = req.body; 
+        
+            const entryObj = {
+              name,
+              image            
+            };
+        
+            const newEntry = new db.Members(entryObj);
+            return res.json(await newEntry.save());
+  
+  
+  }
+      
 }
+
+    
+    
 
 module.exports = membersController
