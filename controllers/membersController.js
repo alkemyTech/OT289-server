@@ -14,7 +14,19 @@ const membersController = {
         } catch (error) {
             res.status(400).json(error)
         }
-    }
+    },
+
+
+    findAllMembers: async (req, res) => {
+        try {
+          const allMembers = await db.Members.findAll();
+          allMembers.length > 0
+            ? res.status(200).json(allMembers)
+            : res.status(200).send("No se encontraron Registros");
+        } catch (error) {
+          res.status(500).json(error.message);
+        }
+      },
 }
 
 module.exports = membersController
