@@ -104,11 +104,9 @@ const newsController = {
         where: {
           type: "news",
         },
-        attributes: ["name", "image", "createdAt"],
+        attributes: ["id", "name", "image", "createdAt"],
       });
-      news.length
-        ? res.status(200).send(news)
-        : res.status(200).send("Not found");
+      res.status(200).send(news)
     } catch (error) {
       res.status(400).send(error.message);
     }
