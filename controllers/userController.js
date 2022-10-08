@@ -59,7 +59,7 @@ const userControllers = {
                 if (err) {
                     console.log(err);
                 } else {
-                    sendMail(newUser.email, 'Bienvenido a Somos Mas', undefined, welcomeHTML)
+                   sendMail(newUser.email, 'Bienvenido a Somos Mas', undefined, welcomeHTML)
                 }
             })
             delete (newUser.password)
