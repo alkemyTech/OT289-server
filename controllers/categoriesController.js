@@ -1,8 +1,8 @@
 const db = require('../models');
 const { validationResult } = require("express-validator");
 
-const testimonialsController = {
-    deleteCategory: (req, res) => {
+const categoriesController = {
+    /* deleteCategory: (req, res) => {
         db.Categories.destroy({where:{id: req.params.id}})
         .then((category) => {
             if(category[0] === 0){
@@ -14,7 +14,7 @@ const testimonialsController = {
             console.error(error)
             return res.status(400).json({errors:[{msg:"Estamos teniendo problemas en nuestras bases de datos, por favor intente mas tarde"}]})
         })
-    },
+    }, */
     getCategories: (req, res) => {
         db.Categories.findAll()
             .then(data => {
@@ -38,4 +38,4 @@ const testimonialsController = {
 
 }
 
-module.exports = testimonialsController;
+module.exports = categoriesController;
