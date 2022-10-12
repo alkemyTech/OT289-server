@@ -57,6 +57,11 @@ const membersController = {
         catch (error) {
             console.error(error)
         }
+    },
+    getMembers: (req, res) => {
+        db.Members.findAll()
+            .then(data => res.status(200).json(data))
+                .catch(error => res.status(400).send('Error en la base de datos'))
     }
 }
 module.exports = membersController

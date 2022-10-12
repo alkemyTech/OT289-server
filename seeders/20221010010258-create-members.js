@@ -4,11 +4,53 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Members', [
       {
-        name: 'Member 1',
-        image: 'member.png',
+        name: 'Maria Irola',
+        image: '/images/support_01.jpg',
         createdAt:new Date,
         updatedAt:new Date
-      }
+      },
+      {
+        name: 'Marita Gomez',
+        image: '/images/support_02.jpg',
+        createdAt:new Date,
+        updatedAt:new Date
+      },
+      {
+        name: 'Miriam Rodriguez',
+        image: '/images/support_03.jpg',
+        createdAt:new Date,
+        updatedAt:new Date
+      },
+      {
+        name: 'Cecilia Mendez',
+        image: '/images/support_04.jpg',
+        createdAt:new Date,
+        updatedAt:new Date
+      },
+      {
+        name: 'Mario Fuentes',
+        image: '/images/support_01.jpg',
+        createdAt:new Date,
+        updatedAt:new Date
+      },
+      {
+        name: 'Rodrigo Fuente',
+        image: '/images/support_02.jpg',
+        createdAt:new Date,
+        updatedAt:new Date
+      },
+      {
+        name: 'Maria Garcia',
+        image: '/images/support_03.jpg',
+        createdAt:new Date,
+        updatedAt:new Date
+      },
+      {
+        name: 'Marco Fernandez',
+        image: '/images/support_04.jpg',
+        createdAt:new Date,
+        updatedAt:new Date
+      },
     ], {});
   },
 
