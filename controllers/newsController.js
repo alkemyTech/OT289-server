@@ -104,7 +104,7 @@ const newsController = {
         where: {
           type: "news",
         },
-        attributes: ["id", "name", "image", "createdAt"],
+        attributes: ["id", "name", "image", "content",  "createdAt"],
       });
       res.status(200).send(news)
     } catch (error) {
