@@ -7,6 +7,8 @@ const membersValidator = require('../middlewares/membersValidator')
 //UPDATE member by :id
 router.put("/:id", membersController.update)
 
+router.get('/', membersController.getMembers)
+
 //DELETE member by :id
 router.delete("/:id", membersController.destroy)
 
