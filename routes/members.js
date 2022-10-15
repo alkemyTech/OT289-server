@@ -12,6 +12,8 @@ router.get('/', membersController.getMembers)
 //DELETE member by :id
 router.delete("/:id", membersController.destroy)
 
+//GET all members
+router.get("/", membersController.findAllMembers)
 //POST member by name
 router.post("/", membersValidator, membersController.createMember)
 module.exports = router

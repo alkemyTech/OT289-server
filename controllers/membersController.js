@@ -18,25 +18,36 @@ const membersController = {
     },
 
 
-    createMember: async (req, res) => {
-
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+    findAllMembers: async (req, res) => {
+        try {
+          const allMembers = await db.Members.findAll();
+          allMembers.length > 0
+            ? res.status(200).json(allMembers)
+            : res.status(200).send("No se encontraron Registros");
+        } catch (error) {
+          res.status(500).json(error.message);
         }
-        //Else save in db
-        const { name, image } = req.body;
-
-        const entryObj = {
-            name,
-            image
-        };
-
-        const newEntry = new db.Members(entryObj);
-        return res.json(await newEntry.save());
-
-
     },
+
+    createMember: async (req, res) => {
+          
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+              return res.status(400).json({ errors: errors.array() });
+            }
+           
+            const { name, image } = req.body; 
+        
+            const entryObj = {
+              name,
+              image            
+            };
+        
+            const newEntry = new db.Members(entryObj);
+            return res.json(await newEntry.save());  
+  
+  },      
+  
 
     update: async (req, res) => {
         try {
@@ -64,4 +75,8 @@ const membersController = {
                 .catch(error => res.status(400).send('Error en la base de datos'))
     }
 }
+
+    
+    
+
 module.exports = membersController
