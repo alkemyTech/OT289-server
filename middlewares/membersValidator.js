@@ -5,7 +5,7 @@ const membersValidator = [
   body("name")    
     .not().isEmpty()
     .withMessage("Por favor escribe un nombre ")
-    .isAlpha()
+    .isAlpha('es-ES',{ignore: '\s'})
     .withMessage('El nombre solo debe contener Letras'),
   
 ];

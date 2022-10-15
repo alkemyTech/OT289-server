@@ -57,4 +57,4 @@ const testimonialsController = {
 
 }
 
-module.exports = testimonialsController;
+module.exports = categoriesController;

@@ -44,7 +44,11 @@ const activitiesControllers = {
         })
 
   },
-
+  getActivities: ( req, res ) => {
+    db.Activities.findAll()
+      .then(data => res.status(200).json(data))
+        .catch(error => res.status(400).json(error))
+  },
   detail: (req,res) => {
     const id = req.params.id;
     db.Activities.findOne({where: { id }})
