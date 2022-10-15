@@ -45,8 +45,8 @@ const testimonialsController = {
             db.Categories.create({
                 name: req.body.name,
             })
-                .then((categorie) => {
-                    return res.status(200).json({ message: "Categorie created succesfully", categorie })
+                .then((category) => {
+                    return res.status(200).json({ message: "Category created succesfully", category })
                 })
                 .catch(error => {
                     console.error(error)
@@ -55,4 +55,4 @@ const testimonialsController = {
     },
 }
 
-module.exports = testimonialsController;
+module.exports = categoriesController;

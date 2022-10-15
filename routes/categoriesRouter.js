@@ -5,7 +5,9 @@ const categoriesValidator = require("../middlewares/categoriesValidator");
 
 router.post("/", categoriesValidator, categoriesController.postCategory);
 
-router.delete('/delete/:id', categoriesController.deleteCategory);
+//router.delete('/delete/:id', categoriesController.deleteCategory);
 router.get('/', categoriesController.getCategories)
+
+router.delete("/:id", categoriesController.deleteCategory);
 
 module.exports = router;
