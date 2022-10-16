@@ -2,35 +2,58 @@ const db = require("../models");
 const { validationResult } = require("express-validator");
 
 const newsController = {
-    update: async (req,res) => {
-        const id = req.params.id
-        const {name, content, image, categoryId, type} = req.body
+  update: (req,res) => {
+    const id = req.params.id
+    const {name, content, image, categoryId, type} = req.body
 
-        const errors = validationResult(req)
+    const errors = validationResult(req)
 
-        if (!errors.isEmpty()) {
-            let errorMessages = ''
+    if (!errors.isEmpty()) {
+        let errorMessages = ''
 
-            errors.array().map(error => {
-                errorMessages += error.msg + '. '
-            })
-
-            return res.sendStatus(401)
-        }
-
-        db.Entries.update({
-            name,
-            content,
-            image,
-            categoryId,
-            type: 'news',
-            createdAt: new Date,
-            updatedAt: new Date
+        errors.array().map(error => {
+            errorMessages += error.msg + '. '
         })
 
-        const newEntry = new db.Entries(entryObj)
-        return res.json(await newEntry.save())
-    },
+        return res.sendStatus(401)
+    }
+
+    db.Entries.update({
+        name,
+        content,
+        image,
+        categoryId,
+        type,
+        updateAt: new Date,
+
+    },{
+        where: {id}
+    })
+        .then(( confirm => {
+            let answer;
+            if(confirm) {
+                answer = {
+                    meta: {
+                        status: 200,
+                        total: confirm.length,
+                        url: `/news/${id}`
+                    },
+                    data:confirm
+                }
+            } else {
+                answer = {
+                    meta: {
+                        status: 204, 
+                        total: confirm.length,
+                        url: `/news/${id}`
+                    },
+                    data: confirm
+                }
+            }
+            res.json(answer)
+        }))
+        .catch(error => res.send(error))
+},
     destroy: async (req, res) => {
         const { id } = req.params
         try {
