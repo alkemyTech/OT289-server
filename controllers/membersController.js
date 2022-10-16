@@ -64,8 +64,6 @@ const membersController = {
         const nameValidation = /^$|^[A-Za-z\s]+$/.test(name)
         const imageValidation = /^$|\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(image)
 
-        console.log(nameValidation)
-
         if(!nameValidation) {
             return res.status(400).json({errors: 'Invalid name'})
         }
