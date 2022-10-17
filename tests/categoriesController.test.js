@@ -27,8 +27,8 @@ describe("GET /categories", () => {
 
 describe("DEL /categories:id", () => {
 
-    const idOk = 1
-    const idOk2 = 2
+    const idOk = 4
+    const idOk2 = 5
     const idNotOk = "NOT_A_REAL_ID"
 
     test("should respond with a 200 status code", async () => {
