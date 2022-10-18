@@ -37,6 +37,23 @@ const categoriesController = {
                 return res.status(400).json(errorObj)
             })
     },
+    postCategory: (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.json({ errors: errors.mapped() });
+        } else {
+            db.Categories.create({
+                name: req.body.name,
+                description: req.body.name
+            })
+                .then((category) => {
+                    return res.status(200).json({ message: "Category created succesfully", category })
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        }
+    },
     updateCategory: async (req, res) => {
         try {
             let categoryToUpdate = await db.Categories.update({
