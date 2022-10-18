@@ -155,7 +155,7 @@ const usersData = [
     {
         firstName: "Martín",
         lastName: "Bravo",
-        email: "martín_bravo@yahoo.com",
+        email: "martin_bravo@yahoo.com",
         password: bcrypt.hashSync("ledikaba50", 10),
         roleId: 2,
         image: '/images/users/default.jpg',
