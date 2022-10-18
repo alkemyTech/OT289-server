@@ -8,8 +8,8 @@ function isAdmin(req,res,next){
    if(typeof bearerHeader !== 'undefined') {
     bearerToken = bearerHeader?.split(' ')[1]
    } else {
-    return res.sendStatus(403)
-   } // Si no manda authorization en headers da 403
+    return res.sendStatus(401)
+   } // Si no manda authorization en headers da 401
 
    if (!bearerToken) {
     return res.sendStatus(404)
@@ -17,13 +17,13 @@ function isAdmin(req,res,next){
 
    jwt.verify(bearerToken, secret, (error, data) => {
         if (error) {
-           return res.send(error)
+           return res.status(401).send(error)
         } else {
          const admin = data.payload.roleId // variable a modificar cuando este el merge de como es el token
          if(admin === 1) {
             next()
          } else {
-            return res.sendStatus(403) // si tu roleId no es 1 (osea administrador) da 403
+            return res.sendStatus(401) // si tu roleId no es 1 (osea administrador) da 403
          }
         }// si el token es invalido da el resultado de error
    })

@@ -1,16 +1,23 @@
 const app = require('../app.js')
 const request = require('supertest')
 
-//need for testing routes protected
+//need for testing protected routes
 let adminToken = ''
+let userToken = ''
 
-//get user token with roleId 1 (admin). User is based in demo user created with seeder.
+//get users token. Users are based in demo users created with seeder.
 beforeAll(async () => {
-    const res = await request(app).post('/users/auth/login').send({
-        email: "test@test.com",
+    const resAdmin = await request(app).post('/users/auth/login').send({
+        email: "admin@test.com",
         password: "12345678"
     })
-    adminToken = res.body.token
+    adminToken = resAdmin.body.token
+
+    const resUser = await request(app).post('/users/auth/login').send({
+        email: "usuario@test.com",
+        password: "12345678"
+    })
+    userToken = resUser.body.token
 })
 
 //TESTS
@@ -33,6 +40,27 @@ describe('GET /contacts', () => {
             expect(contact).toHaveProperty('phone')
             expect(contact).toHaveProperty('email')
             expect(contact).toHaveProperty('message')
+        })
+    })
+
+    describe('Admin token validations', () => {
+        it('It should return status code 401 (Unauthorized) if no token is passed', async() => {
+            const res = await request(app).get('/contacts')
+    
+            expect(res.status).toBe(401)
+        })
+    
+        it('It should return status code 401 (Unauthorized) if no valid token is passed', async() => {
+            const invalidAdminToken = '1234'
+            const res = await request(app).get('/contacts').set('Authorization', `Bearer ${invalidAdminToken}`)
+    
+            expect(res.status).toBe(401)
+        })
+
+        it('It should return status code 401 (Unauthorized) if roleId !== 1', async() => {
+            const res = await request(app).get('/contacts').set('Authorization', `Bearer ${userToken}`)
+    
+            expect(res.status).toBe(401)
         })
     })
 })
