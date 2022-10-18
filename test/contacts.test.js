@@ -74,17 +74,17 @@ describe('POST /contacts', () => {
     }
 
     it('It should return status code 200 if all data needed is sent', async () => {
-        const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(dummyData)
+        const res = await request(app).post('/contacts').send(dummyData)
         expect(res.status).toBe(200)
     })
 
     it("It should pass if headers type is equal to application/json", async () => {
-        const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(dummyData)
+        const res = await request(app).post('/contacts').send(dummyData)
         expect(res.headers['content-type']).toEqual(expect.stringContaining('json'))
     })
 
     it('It should return "id", "name", "phone", "email" & "message" if contact was saved', async () => {
-        const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(dummyData)
+        const res = await request(app).post('/contacts').send(dummyData)
         expect(res.body).toHaveProperty('id')
         expect(res.body).toHaveProperty('name')
         expect(res.body).toHaveProperty('phone')
@@ -93,13 +93,13 @@ describe('POST /contacts', () => {
     })
 
     it('It should return status code 400 if route exist but no data is sent', async () => {
-        const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send()
+        const res = await request(app).post('/contacts').send()
         expect(res.status).toBe(400)
     })
 
     describe('Data sent validation', () => {
         it('It should return status code 400 if data is empty', async () => {
-            const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send({})
+            const res = await request(app).post('/contacts').send({})
             expect(res.status).toBe(400)
         })
 
@@ -107,7 +107,7 @@ describe('POST /contacts', () => {
             const data = {...dummyData}
             data.email = 'invalidEmail'
 
-            const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(data)
+            const res = await request(app).post('/contacts').send(data)
             expect(res.status).toBe(400)
         })
 
@@ -116,7 +116,7 @@ describe('POST /contacts', () => {
                 const data = {...dummyData}
                 delete data[prop]
 
-                const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(data)
+                const res = await request(app).post('/contacts').send(data)
                 expect(res.status).toBe(400)
             })
         })
@@ -126,7 +126,7 @@ describe('POST /contacts', () => {
                 const data = {...dummyData}
                 data[prop] = ''
 
-                const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(data)
+                const res = await request(app).post('/contacts').send(data)
                 expect(res.status).toBe(400)
             })
         })
