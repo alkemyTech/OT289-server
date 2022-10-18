@@ -22,13 +22,13 @@ beforeAll(async () => {
 
 //TESTS
 describe('GET /contacts', () => {
-    it('It should return status code 200', async() => {
-        const res = await request(app).get('/contacts').set('Authorization', `Bearer ${adminToken}`)
 
+    it('It should return status code 200', async () => {
+        const res = await request(app).get('/contacts').set('Authorization', `Bearer ${adminToken}`)
         expect(res.status).toBe(200)
     })
 
-    it('It should response an array of objects, each one with properties "name", "phone", "email" & "message"', async() => {
+    it('It should response an array of objects, each one with properties "name", "phone", "email" & "message"', async () => {
         const res = await request(app).get('/contacts').set('Authorization', `Bearer ${adminToken}`)
 
         //Must be an array
@@ -44,23 +44,69 @@ describe('GET /contacts', () => {
     })
 
     describe('Admin token validations', () => {
-        it('It should return status code 401 (Unauthorized) if no token is passed', async() => {
+
+        it('It should return status code 401 (Unauthorized) if no token is passed', async () => {
             const res = await request(app).get('/contacts')
-    
             expect(res.status).toBe(401)
         })
     
-        it('It should return status code 401 (Unauthorized) if no valid token is passed', async() => {
+        it('It should return status code 401 (Unauthorized) if no valid token is passed', async () => {
             const invalidAdminToken = '1234'
             const res = await request(app).get('/contacts').set('Authorization', `Bearer ${invalidAdminToken}`)
     
             expect(res.status).toBe(401)
         })
 
-        it('It should return status code 401 (Unauthorized) if roleId !== 1', async() => {
+        it('It should return status code 401 (Unauthorized) if roleId !== 1 (admin)', async () => {
             const res = await request(app).get('/contacts').set('Authorization', `Bearer ${userToken}`)
-    
             expect(res.status).toBe(401)
+        })
+
+    })
+})
+
+describe('POST /contacts', () => {
+    const propertiesNeeded = ['name', 'phone', 'email', 'message']
+
+    const dummyData = {
+        name: 'test',
+        phone: '123456',
+        email: 'test@test.com',
+        message: 'this is a message test'
+    }
+
+    describe('Data sent validation', () => {
+        it('It should return status code 400 if data is empty', async () => {
+            const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send({})
+            expect(res.status).toBe(400)
+        })
+
+        it('It should return status code 400 if invalid email is passed', async () => {
+            const data = {...dummyData}
+            data.email = 'invalidEmail'
+
+            const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(data)
+            expect(res.status).toBe(400)
+        })
+
+        it('It should return status code 400 if "name", "phone", "email" or "message" are missing', async () => {
+            propertiesNeeded.map(async (prop) => {
+                const data = {...dummyData}
+                delete data[prop]
+
+                const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(data)
+                expect(res.status).toBe(400)
+            })
+        })
+
+        it('It should return status code 400 if "name", "phone", "email" or "message" are empty', async () => {
+            propertiesNeeded.map(async (prop) => {
+                const data = {...dummyData}
+                data[prop] = ''
+
+                const res = await request(app).post('/contacts').set('Authorization', `Bearer ${adminToken}`).send(data)
+                expect(res.status).toBe(400)
+            })
         })
     })
 })
