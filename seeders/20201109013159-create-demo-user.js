@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt = require('bcrypt')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -6,8 +7,7 @@ module.exports = {
       firstName: 'Usuario',
       lastName: 'Demo',
       email: 'test@test.com',
-      // Important: Password not encrypted yet! 
-      password: '1234',
+      password: bcrypt.hashSync('12345678', 10),
       roleId: 1,
       image: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
       createdAt: new Date,
