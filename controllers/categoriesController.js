@@ -1,7 +1,7 @@
 const db = require('../models');
 const { validationResult } = require("express-validator");
 
-const testimonialsController = {
+const categoriesController = {
     deleteCategory: (req, res) => {
         db.Categories.destroy({ where: { id: req.params.id } })
             .then((category) => {
