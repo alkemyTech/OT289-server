@@ -1,9 +1,12 @@
 const app = require('../app.js')
 const request = require('supertest')
 
-//need for testing protected routes
+//needed for testing protected routes
 let adminToken = ''
 let userToken = ''
+
+//props needed
+const propsNeeded = ['name', 'phone', 'email', 'message']
 
 //get users token. Users are based in demo users created with seeder.
 beforeAll(async () => {
@@ -34,10 +37,9 @@ describe('GET /contacts', () => {
         expect(res.body).toBeInstanceOf(Array)
 
         res.body.map(contact => {
-            expect(contact).toHaveProperty('name')
-            expect(contact).toHaveProperty('phone')
-            expect(contact).toHaveProperty('email')
-            expect(contact).toHaveProperty('message')
+            propsNeeded.map(prop => {
+                expect(contact).toHaveProperty(prop)
+            })
         })
     })
 
@@ -64,8 +66,6 @@ describe('GET /contacts', () => {
 })
 
 describe('POST /contacts', () => {
-    const propsNeeded = ['name', 'phone', 'email', 'message']
-
     const dummyData = {
         name: 'test',
         phone: '123456',
@@ -85,11 +85,11 @@ describe('POST /contacts', () => {
 
     it('It should return "id", "name", "phone", "email" & "message" if contact was saved', async () => {
         const res = await request(app).post('/contacts').send(dummyData)
+
         expect(res.body).toHaveProperty('id')
-        expect(res.body).toHaveProperty('name')
-        expect(res.body).toHaveProperty('phone')
-        expect(res.body).toHaveProperty('email')
-        expect(res.body).toHaveProperty('message')
+        propsNeeded.map(prop => {
+            expect(res.body).toHaveProperty(prop)
+        })
     })
 
     it('It should return status code 400 if route exist but no data is sent', async () => {
