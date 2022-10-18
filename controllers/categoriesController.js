@@ -44,6 +44,7 @@ const categoriesController = {
         } else {
             db.Categories.create({
                 name: req.body.name,
+                description: req.body.name
             })
                 .then((category) => {
                     return res.status(200).json({ message: "Category created succesfully", category })
@@ -53,6 +54,24 @@ const categoriesController = {
                 })
         }
     },
+    updateCategory: async (req, res) => {
+        try {
+            let categoryToUpdate = await db.Categories.update({
+                name: req.body.name,
+                description: req.body.description
+            },
+                { where: { id: req.params.id } })
+            if (categoryToUpdate[0] === 0) {
+                return res.status(503).send("No hemos podido actualizar la informacion")
+            } else {
+                return res.status(200).send("Se ha actualizado la base de datos")
+            }
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+
 }
 
 module.exports = categoriesController;
