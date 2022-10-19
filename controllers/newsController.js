@@ -2,80 +2,78 @@ const db = require("../models");
 const { validationResult } = require("express-validator");
 
 const newsController = {
-  update: (req,res) => {
+  update: async (req,res) => {
     const id = req.params.id
     const {name, content, image, categoryId, type} = req.body
+
+    const entrie = await db.Entries.findByPk(id)
+    if(!entrie) return res.status(404).send({error : 'Not found'})
 
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
         let errorMessages = ''
 
-        errors.array().map(error => {
-            errorMessages += error.msg + '. '
+            errors.array().map(error => {
+                errorMessages += error.msg + '. '
+            })
+
+            return res.status(400).send(errorMessages)
+        }
+
+        db.Entries.update({
+            name,
+            content,
+            image,
+            categoryId,
+            type,
+            updateAt: new Date,
+
+        },{
+            where: {id}
         })
-
-        return res.sendStatus(401)
-    }
-
-    db.Entries.update({
-        name,
-        content,
-        image,
-        categoryId,
-        type,
-        updateAt: new Date,
-
-    },{
-        where: {id}
-    })
-        .then(( confirm => {
-            let answer;
-            if(confirm) {
-                answer = {
-                    meta: {
-                        status: 200,
-                        total: confirm.length,
-                        url: `/news/${id}`
-                    },
-                    data:confirm
+            .then(( confirm => {
+                let answer;
+                if(confirm) {
+                    answer = {
+                        meta: {
+                            status: 200,
+                            total: confirm.length,
+                            url: `/news/${id}`
+                        },
+                        data:confirm
+                    }
+                } else {
+                    answer = {
+                        meta: {
+                            status: 204, 
+                            total: confirm.length,
+                            url: `/news/${id}`
+                        },
+                        data: confirm
+                    }
                 }
-            } else {
-                answer = {
-                    meta: {
-                        status: 204, 
-                        total: confirm.length,
-                        url: `/news/${id}`
-                    },
-                    data: confirm
-                }
-            }
-            res.json(answer)
-        }))
-        .catch(error => res.send(error))
-},
+                res.json(answer)
+            }))
+            .catch(error => res.send(error))
+    },
     destroy: async (req, res) => {
         const { id } = req.params
         try {
+            const entrie = await db.Entries.findByPk(id)
+            if(!entrie) return res.status(404).send({error : 'Not found'})
             const deleteEntry = await db.Entries.destroy(
                 {
                     where: {
                         id: id
                     }
                 });
-            if (!deleteEntry) {
-                res.status(404).send({
-                    status: 'error',
-                    message: `Entry with id ${id} not found`
-                });
-            } else {
-                res.status(200).send({
-                    status: 'succes',
-                    message: `Entry with id ${id} deleted`
-                })
-            }
+            res.status(200).send({
+                status: 'succes',
+                message: `Entry with id ${id} deleted`
+            })
         } catch (error) {
-            console.error(error)
+            res.send(error)
         }
     },
 
@@ -102,7 +100,7 @@ const newsController = {
         errorMessages += error.msg + ". ";
       });
 
-      return res.status(401).send(errorMessages);
+      return res.status(400).send(errorMessages);
     }
 
     //Else Save in db
@@ -133,15 +131,6 @@ const newsController = {
     } catch (error) {
       res.status(400).send(error.message);
     }
-  },
-  findNewsId: async (req, res) => {
-    const { id } = req.params;
-    const entriesId = await db.Entries.findOne({ where: { id: id } });
-
-    if (entriesId == null) {
-      return res.status(404).json("El id no existe");
-    }
-    return res.status(200).json(entriesId);
   },
 };
 
