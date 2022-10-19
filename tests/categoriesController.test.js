@@ -8,11 +8,11 @@ describe("GET /categories", () => {
         expect(response.statusCode).toBe(200)
     });
 
-    //next one only works when turning off the server
+   /*  //next one only works when turning off the server
     test("should respond with a 400 status code if server is down", async () => {
         const response = await request(app).get("/categories").send()
         expect(response.statusCode).toBe(400)
-    });
+    }); */
 
     test("should respond with a content-type of application/json", async () => {
         const response = await request(app).get("/categories").send()
