@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const validator = require('../middlewares/expressValidator');
+const jwtValidator = require('../middlewares/jwtValidator');
 
 //GET list of all users.
 router.get('/', userController.listAllUsers);
@@ -14,7 +15,7 @@ router.post('/auth/checkEmail' , userController.checkEmail);
 router.post('/auth/checkPassword' , userController.checkPassword);
 
 /* DELETE route to soft-delete a user */
-router.delete('/:id', userController.delete);
+router.delete('/:id', jwtValidator, userController.delete);
 
 
 
