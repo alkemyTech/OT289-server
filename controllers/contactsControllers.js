@@ -1,5 +1,8 @@
 const db = require("../models");
 const { validationResult } = require("express-validator");
+const ejs = require('ejs')
+const sendMail = require('../services/sendMail')
+const path = require('path');
 
 const contactsControllers = {
   add: async (req, res) => {
@@ -17,12 +20,33 @@ const contactsControllers = {
       email,
       message,
       createdAt: new Date(),
-      updatedAt: new Date(),
+      updatedAt: new Date()
     };
 
-    const newEntry = new db.contacts(entryObj);
-    return res.json(await newEntry.save());
+    const newEntry = await (new db.contacts(entryObj).save()); 
+    if(newEntry != null){ 
+      //email to the NGO notifying that a user wants to contact.
+      ejs.renderFile(path.resolve(__dirname, '../views/newContact.ejs'), {newEntry}, (err, newContactHTML) => {
+          if (err) {
+              console.log(err);
+          } else { 
+             sendMail(newEntry.email, 'Hola Somos Mas', undefined, newContactHTML)
+          }
+          
+      })     
+  }
+  // email to user notifying that their information was sent and saved in the NGO. 
+  ejs.renderFile(path.resolve(__dirname, '../views/newContact.ejs'), {newEntry}, (err, newContactHTML) => {
+    if (err) {
+        console.log(err);
+    } else { 
+       sendMail(newEntry.email, 'Hola Somos Mas', undefined, newContactHTML)
+    }
+    
+})
+    return res.json(newEntry);
   },
+  
   getAll: async (req, res) => {
     const contacts = await db.contacts.findAll()
     res.json(contacts)
