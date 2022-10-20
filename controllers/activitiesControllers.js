@@ -9,10 +9,11 @@ const activitiesControllers = {
       return res.status(400).json({ errors: errors.array() });
     }
     //Else save in db
-    const { name, content } = req.body;
+    const { name,image, content } = req.body;
 
     const entryObj = {
       name,
+      image,
       content,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -51,9 +52,14 @@ const activitiesControllers = {
   },
   detail: (req,res) => {
     const id = req.params.id;
-    db.Activities.findOne({where: { id }})
-      .then(data => res.json(data))
-        .catch(error => res.send(error))
+    db.Activities.findOne({where: { id }})    
+    .then((data) => { 
+      if (data == null ) {          
+        return res.status(404).json('La actividad no existe');
+      }
+      return res.status(200).json(data)
+   })    
+      .catch(error => res.send(error))
   }
 };
 
