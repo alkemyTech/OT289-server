@@ -46,7 +46,7 @@ npm start
 | sofia_lorenzo@outlook.com     | yicahiku48  | Regular |
 | daniela_pardo@icloud.edu      | xowupibu30  | Regular |
 | daniela_vidal@icloud.net      | yabonadu69  | Regular |
-| martín_bravo@yahoo.com        | ledikaba50  | Regular |
+| martin_bravo@yahoo.com        | ledikaba50  | Regular |
 | valeria_soler@aol.com         | vabifuva22  | Regular |
 | julia_andres@google.net       | yujitise29  | Regular |
 | andres_romero@google.com      | popiximo40  | Regular |
