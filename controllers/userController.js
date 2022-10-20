@@ -115,6 +115,53 @@ const userControllers = {
             })
             .catch(error => console.error(error))
     },
+    update: async(req, res) => {
+        let id = req.params.id;
+        const {firstName, lastName, email, image} = req.body
+        const oldData = await User.findOne({where: {id}})
+
+        if(oldData === null) {
+            return res.status(404).json({errors: 'Not found'})
+        }
+
+        if(firstName) {
+            const nameValidation = /^$|^[A-Za-z\s]+$/.test(firstName)
+            if(!nameValidation) {
+                return res.status(400).json({errors: 'Invalid name'})
+            }
+        }
+
+        if(lastName) {
+            const nameValidation = /^$|^[A-Za-z\s]+$/.test(lastName)
+            if(!nameValidation) {
+                return res.status(400).json({errors: 'Invalid surname'})
+            }
+        }
+
+        if(image){
+            const imageValidation = /^$|\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(image)
+            if(!imageValidation) {
+                return res.status(400).json({errors: 'Invalid image'})
+            }
+        }
+
+        let updatedUser = {
+            id,
+            firstName: firstName ? firstName : oldData.dataValues.firstName,
+            lastName: lastName ? lastName : oldData.dataValues.lastName,
+            email: email ? email : oldData.dataValues.email,
+            image: image ? image : oldData.dataValues.image,
+            roleId: oldData.dataValues.roleId,
+            createdAt: oldData.dataValues.createdAt,
+            updatedAt: new Date(),
+        }
+
+        let token = signToken(updatedUser)
+        
+        User.update(updatedUser,{where:{id}})
+            .then(data => res.status(200).json(token))
+            .catch(error => res.status(503).json(error))
+    }
 };
 
 function signToken(payload){
