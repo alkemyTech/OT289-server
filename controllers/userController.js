@@ -108,7 +108,8 @@ const userControllers = {
         return res.json(user);  
     },
     delete: (req, res) => {
-        db.User.destroy({ where: { id: req.params.id } })
+        console.log('el id es' + req.params.id)
+        User.destroy({ where: { id: req.params.id }, force:true })
             .then(() => {
                 res.send(`User ${req.params.id} deleted`)
             })
