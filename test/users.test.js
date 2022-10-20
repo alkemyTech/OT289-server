@@ -21,22 +21,22 @@ describe('POST /users/auth/login', () => {
             expect(response.status).toBe(400)
         })
 
-        test('should be 400 status code if exist but nothing is sent', async() => {
+        test('should be 400 status code if user data if user data is sent', async() => {
             const response = await request(app).post('/users/auth/login').send(fakeUser)
             expect(response.status).toBe(400)
         })
 
-        test("should pass if application/json exist in headers", async() => {
+        test("should return application/json exist in headers", async() => {
             const response = await request(app).post('/users/auth/login').send(realUser)
             expect(response.headers['content-type']).toEqual(expect.stringContaining('json'))
         })
       
-        test('should be 200 status code if body data is sent', async() => {
+        test('should be 200 status code if user data is correct', async() => {
             const response = await request(app).post('/users/auth/login').send(realUser)
             expect(response.status).toBe(200)
         })
 
-        test('If petition was OK, then the member data is going to be passed in the body', async() => {
+        test('should return a token if user data is correct', async() => {
             const response = await request(app).post('/users/auth/login').send(realUser)
             expect(response.body.token).toBeDefined()
         })
@@ -61,12 +61,12 @@ describe('POST /users/auth/register', () => {
             expect(response.status).toBe(400)
         })
 
-        test("should pass if application/json exist in headers", async() => {
+        test("should return application/json if sign up data is sent", async() => {
             const response = await request(app).post('/users/auth/register').send(signUpData)
             expect(response.headers['content-type']).toEqual(expect.stringContaining('json'))
         })
       
-        test('should be 200 status code if body data is sent', async() => {
+        test('should be 200 status code if sign up data is correct', async() => {
             const response = await request(app).post('/users/auth/register').send(signUpData)
             expect(response.status).toBe(200)
         })
@@ -92,27 +92,27 @@ describe('POST /users/auth/checkEmail', () => {
             expect(response.status).toBe(400)
         })
 
-        test('should be 400 status code if exist but nothing is sent', async() => {
+        test("should be 200 status code if email doesn't exist", async() => {
             const response = await request(app).post('/users/auth/checkEmail').send(fakeEmail)
             expect(response.status).toBe(200)
         })
 
-        test('If petition was OK, then the member data is going to be passed in the body', async() => {
+        test("should return false if email doesn't exist", async() => {
             const response = await request(app).post('/users/auth/checkEmail').send(fakeEmail)
             expect(response.body.emailExist).toBeFalsy()
         })
 
-        test("should pass if application/json exist in headers", async() => {
+        test("should pass if application/json email is sent", async() => {
             const response = await request(app).post('/users/auth/checkEmail').send(realEmail)
             expect(response.headers['content-type']).toEqual(expect.stringContaining('json'))
         })
       
-        test('should be 200 status code if body data is sent', async() => {
+        test('should be 200 status code if email exists', async() => {
             const response = await request(app).post('/users/auth/checkEmail').send(realEmail)
             expect(response.status).toBe(200)
         })
 
-        test('If petition was OK, then the member data is going to be passed in the body', async() => {
+        test("should return true if email exists", async() => {
             const response = await request(app).post('/users/auth/checkEmail').send(realEmail)
             expect(response.body.emailExist).toBeTruthy()
         })
@@ -140,27 +140,27 @@ describe('POST /users/auth/checkPassword', () => {
             expect(response.status).toBe(400)
         })
 
-        test('should be 400 status code if exist but nothing is sent', async() => {
+        test("should be 400 status code if either email or password don't match", async() => {
             const response = await request(app).post('/users/auth/checkPassword').send(fakeUser)
             expect(response.status).toBe(200)
         })
 
-        test('If petition was OK, then the member data is going to be passed in the body', async() => {
+        test("should return false if either email or password don't match", async() => {
             const response = await request(app).post('/users/auth/checkPassword').send(fakeUser)
             expect(response.body.passwordCorrect).toBeFalsy()
         })
 
-        test("should pass if application/json exist in headers", async() => {
+        test("should return application/json exist in headers", async() => {
             const response = await request(app).post('/users/auth/checkPassword').send(realUser)
             expect(response.headers['content-type']).toEqual(expect.stringContaining('json'))
         })
       
-        test('should be 200 status code if body data is sent', async() => {
+        test('should be 200 status code if email and password match', async() => {
             const response = await request(app).post('/users/auth/checkPassword').send(realUser)
             expect(response.status).toBe(200)
         })
 
-        test('If petition was OK, then the member data is going to be passed in the body', async() => {
+        test('should return true if email and password match', async() => {
             const response = await request(app).post('/users/auth/checkPassword').send(realUser)
             expect(response.body.passwordCorrect).toBeTruthy()
         })
