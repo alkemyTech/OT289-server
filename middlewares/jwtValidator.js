@@ -13,7 +13,9 @@ module.exports = async (req,res,next) =>{
         return res.status(400).json({errors:[{msg:"No encontramos un token"}]})
     }
 
-    jwt.verify(bearerToken, JWT_SECRET, (error, authData) => {
+    const finalToken = bearerToken.replaceAll('"', '')
+
+    jwt.verify(finalToken, JWT_SECRET, (error, authData) => {
         if(error){
             return res.status(400).json({errors:[{msg:"El token es invalido"}]})
         }else{
