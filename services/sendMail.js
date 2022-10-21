@@ -1,7 +1,8 @@
 const nodemailer = require('nodemailer')
 
 async function sendMail(to, subject, text, html) {
-   const config = {
+  
+   const config = { 
      host: 'smtp.gmail.com',
      port: '587',
      auth: {

@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const { validationResult } = require('express-validator')
 
+
 const mailerController = {
 
     home: (req,res,next) => {
