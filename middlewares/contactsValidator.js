@@ -9,6 +9,14 @@ const contactsValidator = [
   body("email")
     .isEmail()
     .withMessage("Por favor escribe un email válido"),
+  body("phone")
+    .not()
+    .isEmpty()
+    .withMessage("Por favor escribe un número de contacto válido"),
+  body("message")
+    .not()
+    .isEmpty()
+    .withMessage("Por favor escribe un mensaje válido"),
 ];
 
 module.exports = contactsValidator;

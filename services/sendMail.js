@@ -24,7 +24,6 @@ async function sendMail(to, subject, text, html) {
     const result = await transport.sendMail(msg)
     return result
   } catch (error) {
-    res.send(error.message)
     return null
   }
 }
