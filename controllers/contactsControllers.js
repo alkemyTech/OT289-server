@@ -25,25 +25,24 @@ const contactsControllers = {
 
     const newEntry = await (new db.contacts(entryObj).save()); 
     if(newEntry != null){ 
-      //email to the NGO notifying that a user wants to contact.
+      //email to the ONG notifying that someone wants to contact.
       ejs.renderFile(path.resolve(__dirname, '../views/newContact.ejs'), {newEntry}, (err, newContactHTML) => {
           if (err) {
               console.log(err);
           } else { 
-             sendMail(newEntry.email, 'Hola Somos Mas', undefined, newContactHTML)
-          }
-          
-      })     
-  }
-  // email to user notifying that their information was sent and saved in the NGO. 
-  ejs.renderFile(path.resolve(__dirname, '../views/newContact.ejs'), {newEntry}, (err, newContactHTML) => {
+             sendMail('somosmas2022ong@gmail.com', 'Hola. Somos Mas', undefined, newContactHTML)
+          }           
+      }),     
+  
+  // email to the person notifying that their information was sent and saved in the ONG. 
+  ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewContact.ejs'), {newEntry}, (err, welcomeHTML) => {
     if (err) {
         console.log(err);
     } else { 
-       sendMail(newEntry.email, 'Hola Somos Mas', undefined, newContactHTML)
+       sendMail(newEntry.email, 'Contacto ¡Somos Mas!', undefined, welcomeHTML)
+    }    
+    })
     }
-    
-})
     return res.json(newEntry);
   },
   

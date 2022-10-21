@@ -6,7 +6,7 @@ async function sendMail(to, subject, text, html) {
      host: 'smtp.gmail.com',
      port: '587',
      auth: {
-       user: 'gervyprueba@gmail.com',
+       user: 'somosmas2022ong@gmail.com',
        pass: PASS_MAIL
      }
    }
@@ -15,7 +15,7 @@ async function sendMail(to, subject, text, html) {
 
    const msg = {
     to,
-    from:'gervyprueba@gmail.com',
+    from:'somosmas2022ong@gmail.com',
     subject,
     text,
     html,
@@ -25,7 +25,6 @@ async function sendMail(to, subject, text, html) {
     const result = await transport.sendMail(msg)
     return result
   } catch (error) {
-    console.log(error.message)
     return null
   }
 }
