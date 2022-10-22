@@ -8,9 +8,9 @@ const newsValidator = [
     body("content")
         .not().isEmpty()
         .withMessage("Por favor escribe un contenido válido"),
-    body("image")
-        .not().isEmpty()
-        .withMessage("Por favor ingresa una imagen válida"),
+    // body("image")
+    //     .not().isEmpty()
+    //     .withMessage("Por favor ingresa una imagen válida"),
     body("categoryId")
         .not().isEmpty()
         .withMessage("Por favor ingresa un categoryId válido")
