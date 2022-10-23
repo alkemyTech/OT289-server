@@ -5,7 +5,7 @@ const aws = require('../services/aws')
 const newsController = {
 	update: async (req, res) => {
 		const id = req.params.id
-		const { name, content,  categoryId, type } = req.body
+		const { name, content,  categoryId } = req.body
 		const { image } = req.files
 
 		const entrie = await db.Entries.findByPk(id)
@@ -32,7 +32,7 @@ const newsController = {
 				content,
 				image: imageUrl,
 				categoryId,
-				type,
+				type: 'news',
 				updateAt: new Date(),
 			},
 			{

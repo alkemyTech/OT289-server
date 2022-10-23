@@ -1,5 +1,6 @@
 const db = require("../models");
 const { validationResult } = require("express-validator");
+const aws = require('../services/aws')
 
 const activitiesControllers = {
   add: async (req, res) => {
@@ -8,12 +9,17 @@ const activitiesControllers = {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    
     //Else save in db
-    const { name,image, content } = req.body;
+    const { name, content } = req.body;
+    const { image } = req.files
+
+    //First, upload image to S3
+		const imageUrl = await aws.uploadFile(image.name, image.data)
 
     const entryObj = {
       name,
-      image,
+      image: imageUrl,
       content,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -25,12 +31,17 @@ const activitiesControllers = {
 //update activities
   upActivities : async (req, res) => {
     const { id } = req.params; 
-    const { name, image, content } = req.body;
+    const { name, content } = req.body;
+    const { image } = req.files
+
+    //First, upload image to S3
+		const imageUrl = await aws.uploadFile(image.name, image.data)
+
     const activities = {} 
 
         activities.id = id
         activities.name = name;
-        activities.image = image;
+        activities.image = imageUrl;
         activities.content = content;
 
         await db.Activities.update(activities, {where: { id: id}})
