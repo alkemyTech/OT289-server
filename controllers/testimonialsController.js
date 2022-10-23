@@ -2,6 +2,14 @@ const db = require('../models');
 const { validationResult } = require("express-validator");
 
 const testimonialsController = {
+    getTestimonials: async (req, res) => {
+        try {
+            const testimonials = await db.Testimonials.findAll()
+            res.status(200).send(testimonials)
+        } catch (error) {
+            res.status(400).send(error)
+        }
+    },
     putTestimonials: (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
