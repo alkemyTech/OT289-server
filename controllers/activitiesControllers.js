@@ -39,10 +39,12 @@ const activitiesControllers = {
     }
 
     if (req.files?.image) {
-      activities.image = imageUrl
-
+      const { image } = req.files
+      
       //upload new image to S3
 		  const imageUrl = await aws.uploadFile(image.name, image.data)
+
+      activities.image = imageUrl
     }
 
         await db.Activities.update(activities, {where: { id: id}})
