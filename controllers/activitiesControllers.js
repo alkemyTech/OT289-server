@@ -71,6 +71,20 @@ const activitiesControllers = {
       return res.status(200).json(data)
    })    
       .catch(error => res.send(error))
+  },
+  destroy: async (req, res) => {
+    const { id } = req.params
+    try {
+        const deleted = await db.Activities.destroy({ where: { id } })
+
+        if (deleted) {
+            res.status(200).json({success: 'Actividad eliminada'})
+        } else {
+            res.status(404).json({ error: 'Actividad inexistente' })
+        }
+    } catch (error) {
+        res.status(503).json(error)
+    }
   }
 };
 

@@ -16,5 +16,6 @@ router.post('/', activitiesValidator, activitiesControllers.add)
 // GET Activities.
 router.get('/:id', activitiesControllers.detail)
 router.get('/', activitiesControllers.getActivities)
+router.delete("/:id", activitiesControllers.destroy)
 
 module.exports = router
