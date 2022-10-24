@@ -32,17 +32,18 @@ const activitiesControllers = {
   upActivities : async (req, res) => {
     const { id } = req.params; 
     const { name, content } = req.body;
-    const { image } = req.files
 
-    //First, upload image to S3
-		const imageUrl = await aws.uploadFile(image.name, image.data)
+    const activities = {
+      name,
+      content
+    }
 
-    const activities = {} 
+    if (req.files?.image) {
+      activities.image = imageUrl
 
-        activities.id = id
-        activities.name = name;
-        activities.image = imageUrl;
-        activities.content = content;
+      //upload new image to S3
+		  const imageUrl = await aws.uploadFile(image.name, image.data)
+    }
 
         await db.Activities.update(activities, {where: { id: id}})
         .then((response) => { 

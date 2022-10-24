@@ -6,7 +6,6 @@ const newsController = {
 	update: async (req, res) => {
 		const id = req.params.id
 		const { name, content,  categoryId } = req.body
-		const { image } = req.files
 
 		const entrie = await db.Entries.findByPk(id)
 		if (!entrie) return res.status(404).send({ error: 'Not found' })
@@ -23,18 +22,20 @@ const newsController = {
 			return res.status(400).send(errorMessages)
 		}
 
-		//First, upload image to S3
-		const imageUrl = await aws.uploadFile(image.name, image.data)
+		const news = {
+			name,
+			content,
+			categoryId
+		}
 
-		db.Entries.update(
-			{
-				name,
-				content,
-				image: imageUrl,
-				categoryId,
-				type: 'news',
-				updateAt: new Date(),
-			},
+		if (req.files?.image) {
+			news.image = imageUrl
+	  
+			//upload new image to S3
+			const imageUrl = await aws.uploadFile(image.name, image.data)
+		}
+
+		db.Entries.update(news,
 			{
 				where: { id },
 			}
