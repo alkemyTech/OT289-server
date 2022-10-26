@@ -54,7 +54,7 @@ const userControllers = {
             lastName:lastName,
             email: email,
             password: passHash,
-            image:"/images/default-user.jpg"
+            image:"https://alkemyong.s3.amazonaws.com/default-user.png"
         })
         .then((newUser)=>{
             ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewUser.ejs'), {newUser}, (err, welcomeHTML) => {
