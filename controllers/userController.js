@@ -119,8 +119,19 @@ const userControllers = {
     },
     update: async(req, res) => {
         let id = req.params.id;
-        const {firstName, lastName, email, password, newPassword} = req.body
-        const { image } = req.files
+        let imageUrl;
+        let image;
+        const {firstName, lastName, email, password, newPassword} = req.body;
+
+        if (req.files?.image) {
+            image = req.files.image
+            const imageValidation = /^$|\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(image.name)
+            if(!imageValidation) {
+                return res.status(400).json({errors: 'Imagen invalida'})
+            }
+            imageUrl = await aws.uploadFile(image.name, image.data)
+        }
+
         const oldData = await User.findOne({where: {id}})
 
         if(!firstName && !lastName && !email && !image && !password && !newPassword) {
@@ -147,10 +158,7 @@ const userControllers = {
         }
 
         if(image){
-            const imageValidation = /^$|\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(image.name)
-            if(!imageValidation) {
-                return res.status(400).json({errors: 'Imagen invalida'})
-            }
+
             
         }
         
@@ -158,7 +166,7 @@ const userControllers = {
 
         }
 
-        const imageUrl = await aws.uploadFile(image.name, image.data)
+        
 
         let updatedUser = {
             id,
