@@ -43,7 +43,6 @@ const testimonialsController = {
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.mapped() });
         } else {
-            console.log(req.files)
             aws.uploadFile(req.files.image.name, req.files.image.data)
             .then((imageURL) => {
                 return db.Testimonials.create({
