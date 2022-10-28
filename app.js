@@ -15,7 +15,7 @@ const newsRouter = require('./routes/news');
 const testimonialsRouter = require('./routes/testimonialsRouter');
 const categoriesRouter = require('./routes/categoriesRouter');
 const membersRouter = require('./routes/members')
-const { application } = require('express');
+const organizationRouter = require('./routes/organization')
 
 
 const activitiesRouter = require('./routes/activities')
@@ -44,6 +44,7 @@ app.use('/testimonials', testimonialsRouter);
 app.use('/activities', activitiesRouter)
 app.use('/contacts', contactsRouter)
 app.use('/members', membersRouter)
+app.use('/organization', organizationRouter)
 
 app.use('/api/mail', mailerRouter)
 
