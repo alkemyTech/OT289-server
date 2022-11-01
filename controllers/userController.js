@@ -184,6 +184,22 @@ const userControllers = {
         User.update(updatedUser,{where:{id}})
             .then(data => res.status(200).json({token, user: updatedUser}))
             .catch(error => res.status(503).json({errors: 'Base de datos no disponible'}))
+    },
+    changeRoleId: async (req, res) => {
+        const { id } = req.params
+        try {
+            const userInfo = await User.findByPk(id);
+            if (!userInfo) {
+                return res.status(404).send('Usuario no encontrado')
+            }
+            await User.update({
+                roleId: userInfo.roleId === 1 ? 2 : 1 
+            }, { where: { id } })
+            const updatedUser = await User.findByPk(id);
+            return res.status(200).send(updatedUser)
+        } catch (error) {
+            res.status(400).send(error)
+        }
     }
 };
 

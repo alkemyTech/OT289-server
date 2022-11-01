@@ -15,6 +15,7 @@ router.post('/auth/checkEmail' , userController.checkEmail);
 router.post('/auth/checkPassword' , userController.checkPassword);
 
 router.put('/:id', userController.update)
+router.put('/changeRole/:id', userController.changeRoleId)
 
 /* DELETE route to soft-delete a user */
 router.delete('/:id', jwtValidator, userController.delete);
