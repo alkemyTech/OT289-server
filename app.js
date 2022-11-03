@@ -16,8 +16,6 @@ const testimonialsRouter = require('./routes/testimonialsRouter');
 const categoriesRouter = require('./routes/categoriesRouter');
 const membersRouter = require('./routes/members')
 const organizationRouter = require('./routes/organization')
-
-
 const activitiesRouter = require('./routes/activities')
 const contactsRouter = require('./routes/contacts')
 

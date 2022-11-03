@@ -5,51 +5,66 @@ const sendMail = require('../services/sendMail')
 const path = require('path');
 
 const contactsControllers = {
-  add: async (req, res) => {
+    add: async (req, res) => {
     //Check if there is any error
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
     //Else Save in db
     const { name, phone, email, message } = req.body;
-
     const entryObj = {
-      name,
-      phone,
-      email,
-      message,
-      createdAt: new Date(),
-      updatedAt: new Date()
+        name,
+        phone,
+        email,
+        message,
+        createdAt: new Date(),
+        updatedAt: new Date()
     };
 
     const newEntry = await (new db.contacts(entryObj).save()); 
-    if(newEntry != null){ 
-      //email to the ONG notifying that someone wants to contact.
-      ejs.renderFile(path.resolve(__dirname, '../views/newContact.ejs'), {newEntry}, (err, newContactHTML) => {
-          if (err) {
-              console.log(err);
-          } else { 
-             sendMail('somosmas2022ong@gmail.com', 'Hola. Somos Mas', undefined, newContactHTML)
-          }           
-      }),     
-  
-  // email to the person notifying that their information was sent and saved in the ONG. 
-  ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewContact.ejs'), {newEntry}, (err, welcomeHTML) => {
-    if (err) {
-        console.log(err);
-    } else { 
-       sendMail(newEntry.email, 'Contacto ¡Somos Mas!', undefined, welcomeHTML)
-    }    
-    })
-    }
-    return res.json(newEntry);
-  },
-  
-  getAll: async (req, res) => {
-    const contacts = await db.contacts.findAll()
-    res.json(contacts)
-  },
+        if(newEntry != null){ 
+            //email to the ONG notifying that someone wants to contact.
+            ejs.renderFile(path.resolve(__dirname, '../views/newContact.ejs'), {newEntry}, (err, newContactHTML) => {
+                if (err) {
+                    console.log(err);
+                } else { 
+                    sendMail('somosmas2022ong@gmail.com', 'Hola. Somos Mas', undefined, newContactHTML)
+                }           
+            }),     
+            
+            // email to the person notifying that their information was sent and saved in the ONG. 
+            ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewContact.ejs'), {newEntry}, (err, welcomeHTML) => {
+                if (err) {
+                    console.log(err);
+                } else { 
+                    sendMail(newEntry.email, 'Contacto ¡Somos Mas!', undefined, welcomeHTML)
+                }    
+            })
+        }
+        return res.json(newEntry);
+    },
+    respond: async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        ejs.renderFile(path.resolve(__dirname, '../views/responseContact.ejs'), {response: req.body}, (err, responseContact) => {
+            if (err) {
+                res.status(400).send()
+            } else { 
+                sendMail(req.body.email, req.body.subject, undefined, responseContact)
+                res.status(200).send()
+            }    
+        })
+
+    },
+    getAll: async (req, res) => {
+        const contacts = await db.contacts.findAll()
+        res.json(contacts)
+    },
+
 };
 
 
