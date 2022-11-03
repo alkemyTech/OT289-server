@@ -50,12 +50,12 @@ const contactsControllers = {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        ejs.renderFile(path.resolve(__dirname, '../views/responseContact.ejs'), {response: req.body}, (err, responseContact) => {
+        ejs.renderFile(path.resolve(__dirname, '../views/responseContact.ejs'), {response: req.body}, async (err, responseContact) => {
             if (err) {
-                res.status(400).send()
+                res.sendStatus(400)
             } else { 
-                sendMail(req.body.email, req.body.subject, undefined, responseContact)
-                res.status(200).send()
+                await sendMail(req.body.email, req.body.subject, undefined, responseContact)
+                res.sendStatus(200)
             }    
         })
 
