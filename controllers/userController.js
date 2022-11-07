@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.SECRET
+const JWT_EMAIL_SECRET = process.env.EMAIL_SECRET
 const db = require('../models');
 const User = db.User
 const sendMail = require('../services/sendMail')
@@ -54,7 +55,8 @@ const userControllers = {
             lastName:lastName,
             email: email,
             password: passHash,
-            image:"https://alkemyong.s3.amazonaws.com/default-user.png"
+            image:"https://alkemyong.s3.amazonaws.com/default-user.png",
+            isConfirmed: false
         })
         .then((newUser)=>{
             ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewUser.ejs'), {newUser}, (err, welcomeHTML) => {
@@ -200,6 +202,50 @@ const userControllers = {
         } catch (error) {
             res.status(400).send(error)
         }
+    },
+    sendEmailConfirmation: async (req, res) => {
+        const userData = req.userData
+        console.log(userData.id)
+        const user = await User.findByPk(userData.id)
+        if(!user) {
+            return res.status(404).json({errors: 'Usuario no encontrado'})
+        }
+        const token = signEmailToken(user)
+        
+        const url = `${process.env.BASE_PATH_CLIENT}/confirmacion/${token}`
+        try {
+           await sendMail(
+                    'ignacio.maldonado96@gmail.com',
+                    'Confirma tu contraseña',
+                    null, 
+                    `Haz click aqui para confirmar tu email: <a href=${url}>${url}</a>`
+            )
+            return res.sendStatus(200)
+        } catch (error) {
+            return res.status(500).json({errors: 'Error de servidor'})
+        }
+    },
+    emailConfirmation: (req, res) => {
+            const userData = req.userData
+            User.update({ isConfirmed: 1}, { where: {id: userData.id}})
+                .then(data => {
+                    const user = {
+                        id: userData.id,
+                        firstName: userData.firstName,
+                        lastName: userData.lastName,
+                        email: userData.email,
+                        image: userData.image,
+                        roleId: userData.roleId,
+                        deletedAt: userData.deletedAt,
+                        createdAt: userData.createdAt,
+                        updatedAt: userData.updatedAt,
+                        isConfirmed: 1
+                    }
+                    let token = signToken(user)
+                    res.status(200).json(token)
+                    
+                })
+                    .catch(error => res.status(500).json({errors: 'Error de servidor'}))
     }
 };
 
@@ -207,6 +253,14 @@ function signToken(payload){
     let token = jwt.sign({ payload }, JWT_SECRET, {
 		algorithm: "HS256",
 		expiresIn: '6h',
+	})
+    return token
+}
+
+function signEmailToken(payload){
+    let token = jwt.sign({ payload }, JWT_EMAIL_SECRET, {
+		algorithm: "HS256",
+		expiresIn: '1d',
 	})
     return token
 }
