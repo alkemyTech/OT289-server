@@ -5,6 +5,7 @@ const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME
 const AWS_PUBLIC_KEY = process.env.AWS_PUBLIC_KEY
 const AWS_SECRET_KEY = process.env.AWS_SECRET_KEY
 
+
 const s3 = new S3Client({ 
     region: AWS_BUCKET_REGION,
     credentials: {
