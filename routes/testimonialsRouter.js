@@ -7,5 +7,5 @@ const testimonialsValidator = require("../middlewares/testimonialsValidator");
 router.get('/', testimonialsController.getTestimonials)
 router.put('/:id', testimonialsValidator, testimonialsController.putTestimonials);
 router.post('/add', testimonialsValidator, testimonialsController.postTestimonials);
-router.delete("/delete/:id", testimonialsController.deleteTestimonials)
+router.delete("/:id", testimonialsController.deleteTestimonials)
 module.exports = router;
