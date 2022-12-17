@@ -215,7 +215,7 @@ const userControllers = {
         const url = `${process.env.BASE_PATH_CLIENT}/confirmacion/${token}`
         try {
            await sendMail(
-                    userData.email,
+                    'ignacio.maldonado96@gmail.com',
                     'Confirma tu contraseña',
                     null, 
                     `Haz click aqui para confirmar tu email: <a href=${url}>${url}</a>`
