@@ -18,6 +18,7 @@ const membersRouter = require('./routes/members')
 const organizationRouter = require('./routes/organization')
 const activitiesRouter = require('./routes/activities')
 const contactsRouter = require('./routes/contacts')
+const checkoutRouter = require('./routes/checkoutRouter')
 
 const app = express();
 app.use(cors())
@@ -43,6 +44,7 @@ app.use('/activities', activitiesRouter)
 app.use('/contacts', contactsRouter)
 app.use('/members', membersRouter)
 app.use('/organization', organizationRouter)
+app.use('/checkout', checkoutRouter)
 
 app.use('/api/mail', mailerRouter)
 
