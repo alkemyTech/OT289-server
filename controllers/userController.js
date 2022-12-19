@@ -56,7 +56,8 @@ const userControllers = {
             email: email,
             password: passHash,
             image:"https://alkemyong.s3.amazonaws.com/default-user.png",
-            isConfirmed: false
+            isConfirmed: false,
+            roleId: 1
         })
         .then((newUser)=>{
             ejs.renderFile(path.resolve(__dirname, '../views/welcomeNewUser.ejs'), {newUser}, (err, welcomeHTML) => {
@@ -210,7 +211,7 @@ const userControllers = {
         const url = `${process.env.BASE_PATH_CLIENT}/confirmacion/${token}`
         try {
            await sendMail(
-                    req.userData.email,
+                    'ignacio.maldonado96@gmail.com',
                     'Confirma tu contraseña',
                     null, 
                     `Haz click aqui para confirmar tu email: <a href=${url}>${url}</a>`
@@ -224,21 +225,23 @@ const userControllers = {
             const userData = req.userData
             User.update({ isConfirmed: 1}, { where: {id: userData.id}})
                 .then(data => {
-                    const user = {
-                        id: userData.id,
-                        firstName: userData.firstName,
-                        lastName: userData.lastName,
-                        email: userData.email,
-                        image: userData.image,
-                        roleId: userData.roleId,
-                        deletedAt: userData.deletedAt,
-                        createdAt: userData.createdAt,
-                        updatedAt: userData.updatedAt,
-                        isConfirmed: 1
+                    return User.findByPk(userData.id)      
+                })
+                .then(user => {
+                    console.log(user.email)
+                    const updatedUser = {
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        image: user.image,
+                        roleId: user.roleId,
+                        createdAt: user.createdAt,
+                        updatedAt: user.updatedAt,
                     }
-                    let token = signToken(user)
-                    res.status(200).json(token)
-                    
+                    let token = signToken(updatedUser)
+                    console.log(token)
+                    return res.sendStatus(200).json(token)
                 })
                     .catch(error => res.status(500).json({errors: 'Error de servidor'}))
     }
