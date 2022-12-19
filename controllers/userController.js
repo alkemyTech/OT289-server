@@ -204,18 +204,13 @@ const userControllers = {
         }
     },
     sendEmailConfirmation: async (req, res) => {
-        const userData = req.userData
-        console.log(userData.id)
-        const user = await User.findByPk(userData.id)
-        if(!user) {
-            return res.status(404).json({errors: 'Usuario no encontrado'})
-        }
-        const token = signEmailToken(user)
-        
+
+        const token = signEmailToken({id: req.userData.id})
+
         const url = `${process.env.BASE_PATH_CLIENT}/confirmacion/${token}`
         try {
            await sendMail(
-                    'ignacio.maldonado96@gmail.com',
+                    req.userData.email,
                     'Confirma tu contraseña',
                     null, 
                     `Haz click aqui para confirmar tu email: <a href=${url}>${url}</a>`
